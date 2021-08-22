@@ -1,60 +1,16 @@
-# use glob syntax.
-syntax: glob
-*.ser
-*.class
-*~
-*.bak
-*.off
-*.old
-.DS_Store
+# Ignore Gradle project-specific cache directory
+.gradle
 
-# logs
-derby.log
+# Ignore Gradle build output directory
+build
 
-# eclipse conf file
-#.settings
-#.classpath
-#.project
-#.manager
+# Ignore eclipse build output directory
+bin
 
-# building
-out
-/build
-null
-tmp*
-dist
-test-output
+# Ignore 3rd Party Libraries
+lib/bcrypt-0.3.jar
+src/main/webapp/lib/jquery/1.3.2/jquery-1.3.2.min.js
+src/main/webapp/lib/jquery-plugins/fancybox/1.2.6/jquery.fancybox.css
+src/main/webapp/lib/jquery-plugins/fancybox/1.2.6/jquery.fancybox.pack.js
+src/main/webapp/lib/jquery-plugins/form/2.36/jquery.form.min.js
 
-# sbt
-target
-#lib_managed
-src_managed
-project/boot
-.scala_dependencies
-
-# jars and other libs.
-*.jar
-src/webapp/WEB-INF/lib
-src/webapp/lib
-
-# other scm
-.svn
-.CVS
-.hg*
-
-# switch to regexp syntax.
-#  syntax: regexp
-#  ^\.pc/
-
-# IntelliJ
-#*.iml
-#*.ipr
-#*.iws
-#.idea
-.idea/workspace.xml
-
-# Pax Runner (for easy OSGi launching)
-runner
-
-# webapp uploads
-src/main/webapp/uploads

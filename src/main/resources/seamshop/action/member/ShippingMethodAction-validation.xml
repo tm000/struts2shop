@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<field name="shopId">
+		<field-validator type="required">
+			<message key="msgkey.error.shippingMethod.selectShop" />
+		</field-validator>
+	</field>
+	<field name="shippingMethod">
+		<field-validator type="visitor">
+			<message key="msgkey.error.visitorError" />
+		</field-validator>
+	</field>
+</validators>

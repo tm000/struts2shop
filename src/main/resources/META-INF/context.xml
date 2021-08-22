@@ -1,0 +1,3 @@
+<Context docBase="struts2shop" path="/struts2shop" reloadable="false" source="org.eclipse.jst.j2ee.server:app">
+	<Resources cachingAllowed="true" cacheMaxSize="100000"/>
+</Context>
