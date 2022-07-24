@@ -50,19 +50,19 @@
 		<interceptors>
 			
 			<!-- <interceptor name="method" class="methodInterceptor" /> -->
-			<interceptor name="role" class="roleInterceptor" />
+			<interceptor name="role" class="seamshop.interceptor.security.RoleInterceptor" />
 			<interceptor name="silentLogin"
-				class="silentLoginInterceptor" />
+				class="seamshop.interceptor.SilentLoginInterceptor" />
 			<interceptor name="requestContext"
-				class="requestContextInterceptor" />
+				class="seamshop.interceptor.RequestContextInterceptor" />
 			<interceptor name="beforeValidation"
-				class="beforeValidationInterceptor" />
+				class="seamshop.interceptor.BeforeValidationInterceptor" />
 			<interceptor name="transaction"
-				class="transactionInterceptor" />
+				class="seamshop.interceptor.transaction.TransactionInterceptor" />
 			<interceptor name="readTransaction"
-				class="readTransactionInterceptor" />
+				class="seamshop.interceptor.transaction.ReadTransactionInterceptor" />
 			<interceptor name="writeTransaction"
-				class="writeTransactionInterceptor" />
+				class="seamshop.interceptor.transaction.WriteTransactionInterceptor" />
 			
 			<interceptor-stack name="firstStack">
 				<!-- FIXME: Exception interceptor prevent transaction rollbacks. -->
