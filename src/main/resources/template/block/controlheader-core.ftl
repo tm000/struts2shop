@@ -24,7 +24,7 @@
 	Only show message if errors are available.
 	This will be done if ActionSupport is used.
 -->
-<#assign hasFieldErrors = parameters.name?? && fieldErrors?? && fieldErrors[parameters.name]??/>
+<#assign hasFieldErrors = attributes.name?? && fieldErrors?? && fieldErrors[attributes.name]??/>
 <div <#t/>
 <#if hasFieldErrors>
         class="wwgrp HasFieldErrors"<#t/>
@@ -32,22 +32,22 @@
         class="wwgrp"<#t/>
 </#if>
 ><#t/>
-<table <#rt/><#if parameters.id??>id="wwgrp_${parameters.id}"<#rt/></#if> class="HiddenTable">
+<table <#rt/><#if attributes.id??>id="wwgrp_${attributes.id}"<#rt/></#if> class="HiddenTable">
 <tr>
-<#if parameters.label??>
+<#if attributes.label??>
 <td <#rt/>
-<#if parameters.id??>id="wwlbl_${parameters.id}"<#rt/></#if> class="wwlbl">
+<#if attributes.id??>id="wwlbl_${attributes.id}"<#rt/></#if> class="wwlbl">
     <label <#t/>
-<#if parameters.id??>
-        for="${parameters.id?html}" <#t/>
+<#if attributes.id??>
+        for="${attributes.id}" <#t/>
 </#if>
         class="label"<#t/>
     ><#t/>
-<#if parameters.required?default(false)>
+<#if attributes.required?default(false)>
         <span class="required">*</span><#t/>
 </#if>
-        ${parameters.label?html}${parameters.labelseparator!":"?html}
-<#include "/${parameters.templateDir}/xhtml/tooltip.ftl" />
+        ${attributes.label}${attributes.labelseparator!":"}
+<#include "/${attributes.templateDir}/xhtml/tooltip.ftl" />
 	</label><#t/>
 </td> <#rt/>
 </#if>

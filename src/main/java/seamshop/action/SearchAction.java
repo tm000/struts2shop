@@ -3,6 +3,7 @@ package seamshop.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -70,7 +71,7 @@ public class SearchAction extends AbstractGuestAction
 		boolean searchForProducts = isSearchIn(IN_PRODUCTS);
 		boolean searchForShops = isSearchIn(IN_SHOPS);
 
-		int allResultSize = 0;
+		long allResultSize = 0;
 		int visibleResultSize = 0;
 
 		List<String> countryCodes = new ArrayList<String>();
@@ -150,6 +151,7 @@ public class SearchAction extends AbstractGuestAction
 		return query;
 	}
 
+	@StrutsParameter
 	public void setQuery(String query)
 	{
 		this.query = query;
@@ -162,6 +164,7 @@ public class SearchAction extends AbstractGuestAction
 	}
 
 	/** Shortcut for {@link #setQuery(String)}. */
+	@StrutsParameter
 	public void setQ(String query)
 	{
 		setQuery(query);
@@ -172,6 +175,7 @@ public class SearchAction extends AbstractGuestAction
 		return section;
 	}
 
+	@StrutsParameter
 	public void setSection(String section)
 	{
 		this.section = section;

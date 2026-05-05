@@ -3,14 +3,16 @@ package seamshop.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+import jakarta.persistence.ForeignKey;
 
 @Entity
 @SuppressWarnings("serial")
@@ -22,8 +24,7 @@ public class Cart extends AbstractIdBasedEntity
 	// TODO: Rename to "user", "owner"? (xz, y)
 	// TODO: Set customer, if current user is registered.
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_cart_user_id")
+	@JoinColumn(name = "user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_cart_user_id"))
 	private User customer;
 
 	public Set<CartItem> getCartItems()
@@ -31,6 +32,7 @@ public class Cart extends AbstractIdBasedEntity
 		return cartItems;
 	}
 
+	@StrutsParameter
 	public void setCartItems(Set<CartItem> cartItems)
 	{
 		this.cartItems = cartItems;

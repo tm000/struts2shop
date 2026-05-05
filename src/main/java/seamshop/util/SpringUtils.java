@@ -1,6 +1,6 @@
 package seamshop.util;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.ApplicationContext;

@@ -12,6 +12,11 @@ import seamshop.service.search.filter.ProductCountryFilterFactory;
 public class ProductSearchService extends
 	AbstractSearchServiceWithCountryCodes<Product, ProductSearchParams>
 {
+	public ProductSearchService()
+	{
+		super(new ProductCountryFilterFactory());
+	}
+
 	@Override
 	protected String getCountryFilterName()
 	{

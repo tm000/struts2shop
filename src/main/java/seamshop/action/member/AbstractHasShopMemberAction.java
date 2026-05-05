@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 import seamshop.dao.DaoUtils;
 import seamshop.model.AbstractEntity;
 import seamshop.model.Shop;
@@ -39,6 +41,7 @@ public abstract class AbstractHasShopMemberAction
 		return shopId;
 	}
 
+	@StrutsParameter
 	public void setShopId(Long shopId)
 	{
 		this.shopId = shopId;

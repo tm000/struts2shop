@@ -19,7 +19,7 @@ import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 //import seamshop.interceptor.method.AllowedMethod;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 @Component("checkoutBillingAddressAction")
 @Scope(Spring.ACTION_SCOPE)

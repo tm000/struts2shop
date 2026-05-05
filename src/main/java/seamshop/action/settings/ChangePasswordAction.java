@@ -7,6 +7,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -15,12 +16,12 @@ import seamshop.consts.Interceptor;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.User;
 import seamshop.util.StringUtils;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 /**
  * @author Alex Siman 2009-07-30
@@ -85,7 +86,7 @@ public class ChangePasswordAction extends AbstractSettingsAction
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String submit()
 	{
 		log.debug("call submit()");
@@ -103,6 +104,7 @@ public class ChangePasswordAction extends AbstractSettingsAction
 		return currentPassword;
 	}
 
+	@StrutsParameter
 	public void setCurrentPassword(String currentPassword)
 	{
 		this.currentPassword = currentPassword;
@@ -113,6 +115,7 @@ public class ChangePasswordAction extends AbstractSettingsAction
 		return newPassword;
 	}
 
+	@StrutsParameter
 	public void setNewPassword(String newPassword)
 	{
 		this.newPassword = newPassword;
@@ -123,6 +126,7 @@ public class ChangePasswordAction extends AbstractSettingsAction
 		return newPasswordControl;
 	}
 
+	@StrutsParameter
 	public void setNewPasswordControl(String newPasswordControl)
 	{
 		this.newPasswordControl = newPasswordControl;

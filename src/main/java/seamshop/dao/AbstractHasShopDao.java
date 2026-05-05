@@ -14,7 +14,6 @@ import seamshop.model.AbstractEntity;
 public abstract class AbstractHasShopDao<E extends AbstractEntity<?>>
 	extends GenericDao<E>
 {
-	@SuppressWarnings("unchecked")
 	public List<E> getAllByShopId(Long shopId)
 	{
 		if (shopId == null)
@@ -31,7 +30,7 @@ public abstract class AbstractHasShopDao<E extends AbstractEntity<?>>
 			.toString();
 
 		return createQuery(hql)
-			.setLong("shopId", shopId)
+			.setParameter("shopId", shopId)
 			.list();
 	}
 }

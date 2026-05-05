@@ -3,12 +3,14 @@ package seamshop.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Transient;
-import javax.persistence.Version;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 
 import seamshop.util.Log;
 
@@ -65,6 +67,7 @@ public abstract class AbstractEntity<ID extends Serializable> implements Seriali
 		return created;
 	}
 
+	@StrutsParameter
 	public void setCreated(Date created)
 	{
 		this.created = created;
@@ -75,6 +78,7 @@ public abstract class AbstractEntity<ID extends Serializable> implements Seriali
 		return updated;
 	}
 
+	@StrutsParameter
 	public void setUpdated(Date updated)
 	{
 		this.updated = updated;

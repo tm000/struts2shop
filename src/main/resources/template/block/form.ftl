@@ -20,14 +20,14 @@
  * under the License.
  */
 -->
-<#include "/${parameters.templateDir}/block/form-validate.ftl" />
-<#include "/${parameters.templateDir}/simple/form-common.ftl" />
-<#if (parameters.validate?default(false))>
-  onreset="${parameters.onreset?default('clearErrorMessages(this);clearErrorLabels(this);')}"
+<#include "/${attributes.templateDir}/block/form-validate.ftl" />
+<#include "/${attributes.templateDir}/simple/form-common.ftl" />
+<#if (attributes.validate?default(false))>
+  onreset="${attributes.onreset?default('clearErrorMessages(this);clearErrorLabels(this);')}"
 <#else>
-  <#if parameters.onreset??>
-  onreset="${parameters.onreset?html}"
+  <#if attributes.onreset??>
+  onreset="${attributes.onreset}"
   </#if>
 </#if>
 >
-<#include "/${parameters.templateDir}/block/control.ftl">
+<#include "/${attributes.templateDir}/block/control.ftl">

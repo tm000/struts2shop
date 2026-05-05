@@ -2,7 +2,7 @@ package seamshop.interceptor;
 
 import org.springframework.stereotype.Component;
 
-import com.opensymphony.xwork2.ActionInvocation;
+import org.apache.struts2.ActionInvocation;
 
 /**
  * This interceptor calls {@link BeforeValidationAware#doBeforeValidation()}

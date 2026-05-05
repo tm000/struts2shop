@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import seamshop.action.AbstractGuestAction;
 import seamshop.consts.Interceptor;
 import seamshop.consts.Spring;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.Cart;
 import seamshop.model.CartItem;
@@ -73,7 +74,7 @@ public class CartAction extends AbstractGuestAction
 	 */
 	// TODO: Rename to "add", "createCartItem"? (xz, y)
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String addProductVariant()
 	{
 		log.debug("call addProductVariant()");
@@ -165,7 +166,7 @@ public class CartAction extends AbstractGuestAction
 	 */
 	// TODO: Rename to "remove", "delete"? (xz, y) See [action.CartAction.remove()].
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String deleteCartItem()
 	{
@@ -189,6 +190,7 @@ public class CartAction extends AbstractGuestAction
 		return cartItemId;
 	}
 
+	@StrutsParameter
 	public void setCartItemId(Long cartItemId)
 	{
 		this.cartItemId = cartItemId;
@@ -199,6 +201,7 @@ public class CartAction extends AbstractGuestAction
 		return productVariantId;
 	}
 
+	@StrutsParameter
 	public void setProductVariantId(Long productVariantId)
 	{
 		this.productVariantId = productVariantId;
@@ -209,6 +212,7 @@ public class CartAction extends AbstractGuestAction
 		return quantity;
 	}
 
+	@StrutsParameter
 	public void setQuantity(Integer quantity)
 	{
 		this.quantity = quantity;

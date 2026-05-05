@@ -1,5 +1,7 @@
 package seamshop.action.checkout;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 import seamshop.context.util.Checkout;
 
 @SuppressWarnings("serial")
@@ -12,6 +14,7 @@ public abstract class AbstractCheckoutInProcessAction extends AbstractCheckoutAc
 		return checkoutId;
 	}
 
+	@StrutsParameter
 	public void setCheckoutId(String checkoutId)
 	{
 		this.checkoutId = checkoutId;

@@ -6,11 +6,14 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.opensymphony.xwork2" level="info"/>
+        <Logger name="org.apache.struts2" level="info"/>
         <Logger name="org.apache.struts2" level="info"/>
         <Logger name="org.apache.struts2.edit" level="debug"/>
         <Root level="warn">
             <AppenderRef ref="STDOUT"/>
         </Root>
+        <AsyncLogger name="seamshop" level="TRACE">
+            <AppenderRef ref="STDOUT"/> 
+        </AsyncLogger>
     </Loggers>
 </Configuration>

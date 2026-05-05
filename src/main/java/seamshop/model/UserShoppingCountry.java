@@ -1,10 +1,10 @@
 package seamshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.ForeignKey;
 
 /**
  * Used to filter shops by country for user's shopping.
@@ -16,8 +16,7 @@ import org.hibernate.annotations.ForeignKey;
 public class UserShoppingCountry extends AbstractEntityWithCountry
 {
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_user_shopping_country_user_id")
+	@JoinColumn(name = "user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_user_shopping_country_user_id"))
 	private User user;
 
 	public UserShoppingCountry()

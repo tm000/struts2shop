@@ -3,7 +3,7 @@ package seamshop.converter;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Alex Siman 2009-05-30

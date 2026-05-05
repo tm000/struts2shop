@@ -65,19 +65,19 @@
 						name="msgkey.option.productVariant.notInStock" /></option>
 			</select>
 			<br />
-			<s:div id="variants_%{#i}_traceStockBlock"
-				cssStyle="%{(#inForeach && !inStock) ? 'display: none;' : ''}">
+			<div id="variants_%{#i}_traceStockBlock"
+				style="%{(#inForeach && !inStock) ? 'display: none;' : ''}">
 				<s:checkbox id="variants_%{#i}_traceStock"
 					name="variants[%{#i}].traceStock"
 					value="%{#inForeach ? traceStock : ''}" theme="simple"
 					onclick="toggleQuantityBlock(%{#i});" />
 				<label for="variants_<s:property value="%{#i}"/>_traceStock"><s:text
 						name="msgkey.option.productVariant.traceStock" /></label>
-			</s:div>
+			</div>
 		</h:formField>
 
-		<s:div id="variants_%{#i}_quantityBlock"
-			cssStyle="%{(#inForeach && needQuantity()) ? '' : 'display: none;'}">
+		<div id="variants_%{#i}_quantityBlock"
+			style="%{(#inForeach && needQuantity()) ? '' : 'display: none;'}">
 			<h:formField fieldName="variants[%{#i}].quantity"
 				labelKey="msgkey.label.inStockQuantity">
 				<s:textfield id="variants_%{#i}_quantity"
@@ -90,7 +90,7 @@
 				<label for="variants_<s:property value="%{#i}"/>_soldOutable"><s:text
 						name="msgkey.option.productVariant.soldOutable" /></label>
 			</h:formField>
-		</s:div>
+		</div>
 
 		<h:formField fieldName="variants[%{#i}].featured">
 			<s:checkbox id="variants_%{#i}_featured"

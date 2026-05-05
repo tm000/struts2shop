@@ -1,6 +1,6 @@
 package seamshop.util;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Helper class to process texts.

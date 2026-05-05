@@ -1,6 +1,6 @@
 package seamshop.action;
 
-import static com.opensymphony.xwork2.Action.INPUT;
+import static org.apache.struts2.action.Action.INPUT;
 import static seamshop.action.CartAction.RESULT_REDIRECT_ITEMS;
 
 import java.util.HashMap;
@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,13 +22,11 @@ import seamshop.consts.RequestParam;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 import seamshop.dto.Subcart;
-//import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.CartItem;
 import seamshop.model.Shop;
 
-import com.opensymphony.xwork2.Action;
 
 @Component
 @Scope(Spring.ACTION_SCOPE)
@@ -128,7 +127,7 @@ public class CartAction extends AbstractGuestAction
 	 * (+ redirect to clean up wrong inputs? (maybe)).
 	 */
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String update()
 	{
@@ -150,7 +149,7 @@ public class CartAction extends AbstractGuestAction
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String remove()
 	{
@@ -167,6 +166,7 @@ public class CartAction extends AbstractGuestAction
 		return shopId;
 	}
 
+	@StrutsParameter
 	public void setShopId(Long shopId)
 	{
 		this.shopId = shopId;
@@ -188,16 +188,19 @@ public class CartAction extends AbstractGuestAction
 		return cartItems;
 	}
 
+	@StrutsParameter
 	public void setCartItemId(Long cartItemId)
 	{
 		this.cartItemId = cartItemId;
 	}
 
+	@StrutsParameter
 	public void setCartItemIds(List<Long> cartItemIds)
 	{
 		this.cartItemIds = cartItemIds;
 	}
 
+	@StrutsParameter
 	public void setQuantities(List<Integer> quantities)
 	{
 		this.quantities = quantities;

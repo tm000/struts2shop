@@ -1,12 +1,12 @@
 package seamshop.actionutil;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static seamshop.util.UrlUtils.encodeUrl;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.NullArgumentException;
-import org.apache.commons.lang.text.StrBuilder;
+// import org.apache.commons.lang3.NullArgumentException;
+import org.apache.commons.lang3.text.StrBuilder;
 
 import seamshop.exception.NotImplementedException;
 import seamshop.model.Product;
@@ -46,7 +46,7 @@ public class UrlBuilder
 	{
 		if (null == request)
 		{
-			throw new NullArgumentException("request");
+			throw new NullPointerException("request");
 		}
 		this.request = request;
 //		full = new FullUrlBuilder(request);
@@ -92,7 +92,7 @@ public class UrlBuilder
 	{
 		if (null == shop)
 		{
-			throw new NullArgumentException("shop");
+			throw new NullPointerException("shop");
 		}
 
 		StringBuilder builder = new StringBuilder(getBase()).append(PART_SHOP);

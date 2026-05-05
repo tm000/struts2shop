@@ -1,30 +1,25 @@
 package seamshop.dao;
 
-import static org.hibernate.criterion.Restrictions.eq;
-import static org.hibernate.criterion.Restrictions.ne;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.type.LongType;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import seamshop.model.Product;
 import seamshop.model.Shop;
 import seamshop.util.CollectionUtils;
 
 @Component
-@SuppressWarnings("unchecked")
 public class ShopDao extends GenericDao<Shop>
 {
 	@Autowired
@@ -47,9 +42,9 @@ public class ShopDao extends GenericDao<Shop>
 			"from " + Shop.class.getName() + " s " +
 			"where (s.user.id = :userId) and (s.id = :shopId)";
 
-		shop = (Shop) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.setLong("shopId", shopId)
+		shop = createQuery(hql)
+			.setParameter("userId", getCurrentUserId())
+			.setParameter("shopId", shopId)
 			.uniqueResult();
 
 		initProductCountOfShop(shop);
@@ -70,9 +65,9 @@ public class ShopDao extends GenericDao<Shop>
 			"from " + Shop.class.getName() + " s " +
 			"where s.user.id = :userId";
 
-		count = (Long) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.uniqueResult();
+		count = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId())
+			.getSingleResult();
 
 		return count;
 	}
@@ -93,7 +88,7 @@ public class ShopDao extends GenericDao<Shop>
 			"order by s.name";
 
 		List<Shop> shops = createQuery(hql)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("userId", getCurrentUserId())
 			.list();
 
 		// TODO: Delete: unneeded? (y)
@@ -115,7 +110,7 @@ public class ShopDao extends GenericDao<Shop>
 			"order by s.created desc";
 
 		List<Shop> shops = createPagedQuery(hql)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("userId", getCurrentUserId())
 			.list();
 
 		initProductCountsOfShops(shops);
@@ -184,8 +179,8 @@ public class ShopDao extends GenericDao<Shop>
 			"from " + Product.class.getName() + " p " +
 			"where p.id = :productId";
 
-		return (Shop) createQuery(hql)
-			.setLong("productId", productId)
+		return createQuery(hql)
+			.setParameter("productId", productId)
 			.uniqueResult();
 	}
 
@@ -209,8 +204,8 @@ public class ShopDao extends GenericDao<Shop>
 		log.debug("after getSession()");
 
 
-		List<Object[]> productIdAndShops = createQuery(hql)
-			.setParameterList("productIds", productIds, new LongType())
+		List<Object[]> productIdAndShops = createQuery(hql, Object[].class)
+			.setParameterList("productIds", productIds)
 			.list();
 
 		for (Object[] productIdAndShop : productIdAndShops)
@@ -239,19 +234,24 @@ public class ShopDao extends GenericDao<Shop>
 			"from " + Shop.class.getName() + " s " +
 			"where s.urlName = :urlName";
 
-		return (Shop) createQuery(hql)
-			.setString("urlName", urlName)
+		return createQuery(hql)
+			.setParameter("urlName", urlName)
 			.uniqueResult();
 	}
 
 	public boolean isUniqueByUrlName(String urlName, Long shopId)
 	{
 		log.debug("isUniqueByUrlName(String urlName, Long shopId)");
-		Criteria criteria = createCriteria().add(eq("urlName", urlName));
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+		Root<Shop> root = cq.from(getEntityClass());
+		cq.where(builder.equal(root.get("urlName"), urlName));
 		if (shopId != null)
 		{
-			criteria.add(ne("id", shopId));
+			cq.where(builder.notEqual(root.get("id"), shopId));
 		}
-		return isUniqueCriteria(criteria);
+		cq.select(builder.count(root));
+		return 1 > getSession().createQuery(cq).getSingleResult();
+		// return isUniqueCriteria(restrictions);
 	}
 }

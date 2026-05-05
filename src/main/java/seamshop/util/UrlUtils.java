@@ -6,10 +6,10 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public abstract class UrlUtils
 {
@@ -115,7 +115,7 @@ public abstract class UrlUtils
 	 * POST requests should specify the encoding of the parameters and values
 	 * they send. Since many clients fail to set an explicit encoding,
 	 * the default is used (ISO 8859-1). In many cases this is not the preferred
-	 * interpretation so one can employ a javax.servlet.Filter to set request
+	 * interpretation so one can employ a jakarta.servlet.Filter to set request
 	 * encodings.
 	 * <p/>
 	 * If you set the URIEncoding="UTF-8" on the Connector in servlet.xml,

@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,6 @@ import seamshop.util.CollectionUtils;
  */
 // TODO: Move static fields to AbstractDao? (mb)
 @Component
-@SuppressWarnings("unchecked")
 public class DaoUtils
 {
 	/**

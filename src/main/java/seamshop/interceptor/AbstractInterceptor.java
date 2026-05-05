@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import seamshop.action.AbstractAction;
@@ -20,9 +20,9 @@ import seamshop.dao.SessionDao;
 import seamshop.dao.UserDao;
 import seamshop.util.Log;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionInvocation;
-import com.opensymphony.xwork2.util.AnnotationUtils;
+import org.apache.struts2.ActionContext;
+import org.apache.struts2.ActionInvocation;
+import org.apache.struts2.util.AnnotationUtils;
 
 /**
  * Notes from XWork 2.1.6 wiki:
@@ -37,7 +37,7 @@ import com.opensymphony.xwork2.util.AnnotationUtils;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractInterceptor extends
-	com.opensymphony.xwork2.interceptor.AbstractInterceptor
+	org.apache.struts2.interceptor.AbstractInterceptor
 {
 	protected final Log log = new Log(this.getClass());
 
@@ -79,7 +79,7 @@ public abstract class AbstractInterceptor extends
 	}
 
 	// TODO: Refactor: Duplication: This method has been copied from
-	//       [com.opensymphony.xwork2.DefaultActionInvocation]
+	//       [org.apache.struts2.DefaultActionInvocation]
 	//       but it should be exposed through the XWork API (somehow...) or etc.
 	protected Method getActionMethod() throws NoSuchMethodException
 	{

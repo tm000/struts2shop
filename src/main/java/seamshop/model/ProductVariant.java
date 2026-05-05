@@ -2,12 +2,14 @@ package seamshop.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.ForeignKey;
 
 /**
  * Represents product variant (variation).
@@ -62,8 +64,7 @@ public class ProductVariant extends AbstractNamedEntity
 
 	/** Product that this variant belongs to. */
 	@ManyToOne
-	@JoinColumn(name = "product_id", nullable = false)
-	@ForeignKey(name = "fk_product_variant_product_id")
+	@JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_variant_product_id"))
 	private Product product;
 
 	public ProductVariant()
@@ -229,6 +230,7 @@ public class ProductVariant extends AbstractNamedEntity
 		return quantity;
 	}
 
+	@StrutsParameter
 	public void setQuantity(Integer quantity)
 	{
 		this.quantity = quantity;
@@ -239,6 +241,7 @@ public class ProductVariant extends AbstractNamedEntity
 		return number;
 	}
 
+	@StrutsParameter
 	public void setNumber(Integer number)
 	{
 		this.number = number;

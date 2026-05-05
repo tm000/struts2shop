@@ -1,6 +1,6 @@
 package seamshop.action;
 
-import static seamshop.interceptor.transaction.TransactionType.WRITE;
+import static seamshop.interceptor.transaction.MyTransactionType.WRITE;
 import static seamshop.util.CollectionUtils.removeNulls;
 
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,8 +28,8 @@ import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.User;
 import seamshop.model.UserShoppingCountry;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.Preparable;
+import org.apache.struts2.action.Action;
+import org.apache.struts2.Preparable;
 
 /**
  * @author Alex Siman 2009-12-24
@@ -166,11 +167,13 @@ public class ShoppingCountriesAction extends AbstractGuestAction implements Prep
 		return SUCCESS;
 	}
 
+	@StrutsParameter(depth = 2)
 	public List<UserShoppingCountry> getShoppingCountries()
 	{
 		return shoppingCountries;
 	}
 
+	@StrutsParameter
 	public void setShoppingCountries(List<UserShoppingCountry> shoppingCountries)
 	{
 		this.shoppingCountries = shoppingCountries;

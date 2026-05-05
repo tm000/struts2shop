@@ -1,7 +1,7 @@
 package seamshop.web.listener;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 /**
  * Bootstrap listener for whole webapp. Here must be started up some frameworks

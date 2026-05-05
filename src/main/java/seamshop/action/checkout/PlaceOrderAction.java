@@ -1,12 +1,13 @@
 package seamshop.action.checkout;
 
-import static com.opensymphony.xwork2.Action.SUCCESS;
+import static org.apache.struts2.action.Action.SUCCESS;
 import static seamshop.consts.ResultType.REDIRECT_ACTION;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import seamshop.consts.Interceptor;
 import seamshop.consts.Spring;
 import seamshop.context.util.Checkout;
 import seamshop.interceptor.BeforeValidationAware;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.Order;
 import seamshop.model.OrderItem;
@@ -51,7 +52,7 @@ public class PlaceOrderAction extends AbstractCheckoutInProcessAction
 
 	private String orderNumber;
 
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	@Override
 	public String execute()
@@ -102,6 +103,7 @@ public class PlaceOrderAction extends AbstractCheckoutInProcessAction
 		return buyerNotes;
 	}
 
+	@StrutsParameter
 	public void setBuyerNotes(String buyerNotes)
 	{
 		this.buyerNotes = buyerNotes;

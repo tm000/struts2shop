@@ -3,16 +3,25 @@ package seamshop.service.search.filter;
 import java.util.Collection;
 
 import org.apache.lucene.index.Term;
-import org.apache.lucene.misc.ChainedFilter;
-import org.apache.lucene.search.Filter;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+// import org.apache.lucene.misc.ChainedFilter;
+// import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.QueryWrapperFilter;
+// import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.TermQuery;
-import org.hibernate.search.annotations.Factory;
-import org.hibernate.search.annotations.Key;
-import org.hibernate.search.filter.CachingWrapperFilter;
-import org.hibernate.search.filter.FilterKey;
-import org.hibernate.search.filter.StandardFilterKey;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+// import org.hibernate.search.annotations.Factory;
+// import org.hibernate.search.annotations.Key;
+// import org.hibernate.search.filter.CachingWrapperFilter;
+// import org.hibernate.search.filter.FilterKey;
+// import org.hibernate.search.filter.StandardFilterKey;
+import org.apache.struts2.util.Key;
+import org.hibernate.search.engine.search.predicate.SearchPredicate;
+import org.hibernate.search.engine.search.predicate.dsl.MatchPredicateFieldMoreStep;
+import org.hibernate.search.engine.search.predicate.dsl.MatchPredicateFieldStep;
+import org.hibernate.search.engine.search.predicate.dsl.MatchPredicateOptionsStep;
+import org.hibernate.search.engine.search.predicate.dsl.SearchPredicateFactory;
 
 import seamshop.util.Log;
 
@@ -34,37 +43,49 @@ public abstract class AbstractCountryFilterFactory
 	}
 
 	/** Injected parameter. */
+	@StrutsParameter
 	public void setCountryCodes(Collection<String> countryCodes)
 	{
 		this.countryCodes = countryCodes;
 	}
 
-	@Key
-	public FilterKey getKey()
-	{
-		StandardFilterKey key = new StandardFilterKey();
-		key.addParameter(countryCodes);
-		return key;
-	}
+	// @Key
+	// public FilterKey getKey()
+	// {
+	// 	StandardFilterKey key = new StandardFilterKey();
+	// 	key.addParameter(countryCodes);
+	// 	return key;
+	// }
 
-	@Factory
-	public Filter getFilter()
-	{
-		Filter[] chain = new Filter[countryCodes.size()];
-		String indexedFieldName = getIndexedFieldName();
-		int i = 0;
+	// @Factory
+	// public Query getFilter()
+	// {
+	// 	// Filter[] chain = new Filter[countryCodes.size()];
+	// 	String indexedFieldName = getIndexedFieldName();
+	// 	org.apache.lucene.search.BooleanQuery.Builder filterBuilder = new BooleanQuery.Builder();
+	// 	for (String countryCode : countryCodes)
+	// 	{
+	// 		// NOTE: countryCode needs to be in lower-case such as
+	// 		// analizer modifies any word to lower-case and
+	// 		// Lucene will be searching for exact phrase.
+	// 		countryCode = countryCode.toLowerCase();
+	// 		Query query = new TermQuery(new Term(indexedFieldName, countryCode));
+	// 	    filterBuilder.add(query, BooleanClause.Occur.MUST);
+	// 	}
+	// 	return filterBuilder.build();
+	// }
+
+	public SearchPredicate create(SearchPredicateFactory factory) {
+		MatchPredicateFieldMoreStep<?, ?> matchPredicateFieldMoreStep = factory.match().field(getIndexedFieldName());
+		MatchPredicateOptionsStep<?> matchPredicateOptionsStep = null;
 		for (String countryCode : countryCodes)
 		{
 			// NOTE: countryCode needs to be in lower-case such as
 			// analizer modifies any word to lower-case and
 			// Lucene will be searching for exact phrase.
 			countryCode = countryCode.toLowerCase();
-			Query query = new TermQuery(new Term(indexedFieldName, countryCode));
-			Filter filter = new QueryWrapperFilter(query);
-			chain[i] = filter;
-			++i;
+			matchPredicateOptionsStep = matchPredicateFieldMoreStep.matching(countryCode);
 		}
-		ChainedFilter chainedFilter = new ChainedFilter(chain);
-		return new CachingWrapperFilter(chainedFilter);
+		return matchPredicateOptionsStep.toPredicate();
 	}
 }

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.Query;
-import org.hibernate.type.LongType;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,6 @@ import seamshop.util.CollectionUtils;
 import seamshop.util.StringUtils;
 
 @Component
-@SuppressWarnings("unchecked")
 public class ProductDao extends GenericDao<Product>
 {
 	@Autowired
@@ -64,13 +62,13 @@ public class ProductDao extends GenericDao<Product>
 			"where (p.shop.user.id = :userId) " +
 			(shopId == null ? "" : "and (p.shop.id = :shopId)");
 
-		Query query = createQuery(hql)
-			.setLong("userId", getCurrentUserId());
+		Query<Long> query = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId());
 		if (shopId != null)
 		{
-			query.setLong("shopId", shopId);
+			query.setParameter("shopId", shopId);
 		}
-		count = (Long) query.uniqueResult();
+		count = query.uniqueResult();
 
 		return count;
 	}
@@ -93,11 +91,11 @@ public class ProductDao extends GenericDao<Product>
 			(shopId == null ? "" : "and (p.shop.id = :shopId) ") +
 			"order by p.created desc";
 
-		Query query = createPagedQuery(hql)
-			.setLong("userId", getCurrentUserId());
+		Query<Product> query = createPagedQuery(hql, Product.class)
+			.setParameter("userId", getCurrentUserId());
 		if (shopId != null)
 		{
-			query.setLong("shopId", shopId);
+			query.setParameter("shopId", shopId);
 		}
 
 		return query.list();
@@ -181,8 +179,8 @@ public class ProductDao extends GenericDao<Product>
 			"where product.id in (:productIds) " +
 			"group by product.id";
 
-		List<Object[]> list = createQuery(hql)
-			.setParameterList("productIds", productIds, new LongType())
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameterList("productIds", productIds)
 			.list();
 
 		final String minPriceKey = "minPrice";
@@ -241,8 +239,8 @@ public class ProductDao extends GenericDao<Product>
 			"where shop.id = :shopId " +
 			"order by name";
 
-		List<Product> products = createPagedQuery(hql)
-			.setLong("shopId", shopId)
+		List<Product> products = createPagedQuery(hql, Product.class)
+			.setParameter("shopId", shopId)
 			.list();
 
 		return this.convertEntityToModel(products);
@@ -262,8 +260,8 @@ public class ProductDao extends GenericDao<Product>
 			"where productCategory.category.name = :categoryName " +
 			"order by product.name";
 
-		List<Product> products = createPagedQuery(hql)
-			.setString("categoryName", categoryName)
+		List<Product> products = createPagedQuery(hql, Product.class)
+			.setParameter("categoryName", categoryName)
 			.list();
 
 		return this.convertEntityToModel(products);
@@ -307,8 +305,8 @@ public class ProductDao extends GenericDao<Product>
 			"where s.id in (:shopIds) " +
 			"group by s.id";
 
-		List<Object[]> list = createQuery(hql)
-			.setParameterList("shopIds", shopIds, new LongType())
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameterList("shopIds", shopIds, Long.class)
 			.list();
 
 		/*
@@ -362,8 +360,8 @@ public class ProductDao extends GenericDao<Product>
 			"where c.id in (:categoryIds) " +
 			"group by c.id";
 
-		List<Object[]> list = createQuery(hql)
-			.setParameterList("categoryIds", categoryIds, new LongType())
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameterList("categoryIds", categoryIds, Long.class)
 			.list();
 
 		/*
@@ -392,8 +390,8 @@ public class ProductDao extends GenericDao<Product>
 			ProductCategory.class.getSimpleName() + " " +
 			"where category.name = :categoryName";
 
-		Long productCount = (Long) createQuery(hql)
-			.setString("categoryName", categoryName)
+		Long productCount = (Long) createQuery(hql, Long.class)
+			.setParameter("categoryName", categoryName)
 			.uniqueResult();
 
 		return productCount;

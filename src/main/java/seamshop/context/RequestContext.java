@@ -5,8 +5,8 @@ import java.io.Serializable;
 import seamshop.actionutil.Pager;
 import seamshop.util.Log;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ValidationAwareSupport;
+import org.apache.struts2.action.Action;
+import org.apache.struts2.ValidationAwareSupport;
 
 /**
  * Helper class to store request scoped objects. It is Spring bean.

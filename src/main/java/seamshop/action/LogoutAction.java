@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import seamshop.consts.Cookie;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.util.StringUtils;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 @Component
 @Scope(Spring.ACTION_SCOPE)
@@ -27,7 +27,7 @@ import com.opensymphony.xwork2.Action;
 @SuppressWarnings("serial")
 public class LogoutAction extends AbstractGuestAction
 {
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	@Override
 	public String execute()

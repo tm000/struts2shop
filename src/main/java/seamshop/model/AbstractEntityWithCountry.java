@@ -1,7 +1,9 @@
 package seamshop.model;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * @author Alex Siman 2009-12-24
@@ -20,6 +22,7 @@ public abstract class AbstractEntityWithCountry extends AbstractIdBasedEntity
 		return countryCode;
 	}
 
+	@StrutsParameter
 	public void setCountryCode(String countryCode)
 	{
 		this.countryCode = countryCode;

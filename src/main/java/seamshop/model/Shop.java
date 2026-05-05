@@ -1,6 +1,6 @@
 package seamshop.model;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static seamshop.model.validation.UrlNameValidationResult.OK;
 
 import java.util.ArrayList;
@@ -8,22 +8,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FullTextFilterDef;
-import org.hibernate.search.annotations.FullTextFilterDefs;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
+import jakarta.persistence.ForeignKey;
+
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+// import org.hibernate.search.annotations.ContainedIn;
+// import org.hibernate.search.annotations.Field;
+// import org.hibernate.search.annotations.FullTextFilterDef;
+// import org.hibernate.search.annotations.FullTextFilterDefs;
+// import org.hibernate.search.annotations.Index;
+// import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import seamshop.messages.CountryCollection;
 import seamshop.messages.CurrencyCollection;
@@ -38,11 +45,11 @@ import seamshop.service.search.filter.ShopCountryFilterFactory;
  */
 @Entity
 @Indexed
-@FullTextFilterDefs({
-	@FullTextFilterDef(
-		name = ShopCountryFilterFactory.FILTER_NAME,
-		impl = ShopCountryFilterFactory.class)
-})
+// @FullTextFilterDefs({
+// 	@FullTextFilterDef(
+// 		name = ShopCountryFilterFactory.FILTER_NAME,
+// 		impl = ShopCountryFilterFactory.class)
+// })
 @SuppressWarnings("serial")
 public class Shop extends AbstractHtmlDescribedEntity
 {
@@ -95,7 +102,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 	 */
 	// TODO: High: Autoset country by user IP and Google Geolocation.
 	@Column(nullable = false, length = 2)
-	@Field(index = Index.TOKENIZED)
+	@KeywordField
 	private String countryCode;
 
 	// TODO: Impl: Maybe through ShopAddress.
@@ -108,15 +115,13 @@ public class Shop extends AbstractHtmlDescribedEntity
 	 * Shop's logo.
 	 */
 	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name = "logo_id")
-	@ForeignKey(name = "fk_shop_logo_id")
+	@JoinColumn(name = "logo_id", foreignKey = @ForeignKey(name = "fk_shop_logo_id"))
 	private Image logo;
 
 	/**
 	 * This shop products. @ContainedIn needed by @IndexedEmbedded to keep
 	 * indexed fields from {@code Shop} in {@code Product} up to date.
 	 */
-	@ContainedIn
 	@OneToMany(mappedBy = "shop", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<Product> products = new HashSet<Product>();
 
@@ -136,8 +141,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 	// TODO: Use as filter for member search.
 	// TODO: Rename to "owner"/"creator"/"seller"? (mb)
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_shop_user_id")
+	@JoinColumn(name = "user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shop_user_id"))
 	private User user;
 
 	// Transient --------------------------------------------------------------
@@ -196,6 +200,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return urlName;
 	}
 
+	@StrutsParameter
 	public void setUrlName(String urlName)
 	{
 		if (null != urlName)
@@ -235,6 +240,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return currency;
 	}
 
+	@StrutsParameter
 	public void setCurrency(String currency)
 	{
 		this.currency = currency.toUpperCase();
@@ -267,6 +273,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return countryCode;
 	}
 
+	@StrutsParameter
 	public void setCountryCode(String countryCode)
 	{
 		this.countryCode = countryCode.toUpperCase();
@@ -299,6 +306,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return addresses;
 	}
 
+	@StrutsParameter
 	public void setAddresses(List<Address> addresses)
 	{
 		this.addresses = addresses;
@@ -319,6 +327,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return products;
 	}
 
+	@StrutsParameter
 	public void setProducts(Set<Product> products)
 	{
 		this.products = products;
@@ -339,6 +348,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return shippingMethods;
 	}
 
+	@StrutsParameter
 	public void setShippingMethods(List<ShippingMethod> shippingMethods)
 	{
 		this.shippingMethods = shippingMethods;
@@ -349,6 +359,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return paymentMethods;
 	}
 
+	@StrutsParameter
 	public void setPaymentMethods(List<PaymentMethod> paymentMethods)
 	{
 		this.paymentMethods = paymentMethods;
@@ -359,6 +370,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return shoppingCountries;
 	}
 
+	@StrutsParameter
 	public void setShoppingCountries(List<ShopShoppingCountry> shoppingCountries)
 	{
 		this.shoppingCountries = shoppingCountries;
@@ -369,6 +381,7 @@ public class Shop extends AbstractHtmlDescribedEntity
 		return productCount;
 	}
 
+	@StrutsParameter
 	public void setProductCount(Long productCount)
 	{
 		this.productCount = productCount;

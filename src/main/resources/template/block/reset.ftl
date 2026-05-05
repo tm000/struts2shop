@@ -20,20 +20,20 @@
  * under the License.
  */
 -->
-<#if parameters.labelposition?default("top") == 'top'>
+<#if attributes.labelposition?default("top") == 'top'>
 <div <#rt/>
 <#else>
 <span <#rt/>
 </#if>
-<#if parameters.align??>
-    align="${parameters.align?html}"<#t/>
+<#if attributes.align??>
+    align="${attributes.align}"<#t/>
 </#if>
-<#if parameters.id??>
-    id="wwctrl_${parameters.id}"<#rt/>
+<#if attributes.id??>
+    id="wwctrl_${attributes.id}"<#rt/>
 </#if>
 ><#t/>
-<#include "/${parameters.templateDir}/simple/reset.ftl" />
-<#if parameters.labelposition?default("top") == 'top'>
+<#include "/${attributes.templateDir}/simple/reset.ftl" />
+<#if attributes.labelposition?default("top") == 'top'>
 </div> <#t/>
 <#else>
 </span> <#t/>

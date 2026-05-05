@@ -1,23 +1,22 @@
 package seamshop.dao;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
-import static org.hibernate.criterion.Restrictions.eq;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.FlushMode;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import seamshop.actionutil.Pager;
@@ -141,6 +140,11 @@ public abstract class GenericDao<E extends AbstractEntity>
 		return getEntityClass().getSimpleName();
 	}
 
+	protected String getEntityName()
+	{
+		return null;
+	}
+
 	protected Pager getPager()
 	{
 		return requestContext.getPager();
@@ -203,36 +207,54 @@ public abstract class GenericDao<E extends AbstractEntity>
 		return (Session) entityManager.getDelegate();
 	}
 
-	protected Query createQuery(String hql)
+	protected <T> Query<T> createQuery(String hql, Class<T> clazz)
 	{
-		return getSession().createQuery(hql);
+		return getSession().createQuery(hql, clazz);
 	}
 
-	protected Criteria createCriteria()
+	protected Query<E> createQuery(String hql)
 	{
-		return getSession().createCriteria(getEntityClass());
+		return createQuery(hql, getEntityClass());
 	}
 
-	protected Query createPagedQuery(String hql)
+	// protected Root<E> createCriteria()
+	// {
+	// 	return getSession().getCriteriaBuilder()
+	// 			.createQuery(getEntityClass()))
+	// 			.from(getEntityClass());
+	// }
+
+	protected <T> Query<T> createPagedQuery(String hql, Class<T> clazz)
 	{
 		log.debug("call createPagedQuery(String hql)");
 		log.debug("firstResult: " + getFirstResult());
 		log.debug("maxResults: " + getMaxResults());
 
-		return createQuery(hql)
+		return createQuery(hql, clazz)
 			.setFirstResult(getFirstResult())
 			.setMaxResults(getMaxResults());
+	}
+
+	protected Query<E> createPagedQuery(String hql)
+	{
+		return createPagedQuery(hql, getEntityClass());
 	}
 
 	public void detach(E entity)
 	{
 		getSession().evict(entity);
+		// getSession().detach(entity);
+	}
+
+	public void attach(E entity)
+	{
+		getSession().merge(entity);
 	}
 
 	public long count()
 	{
 		String hql = "select count(*) from " + getEntityClassName();
-		Long count = (Long) createQuery(hql).uniqueResult();
+		Long count = createQuery(hql, Long.class).getSingleResult();
 
 		return count.longValue();
 	}
@@ -318,7 +340,7 @@ public abstract class GenericDao<E extends AbstractEntity>
 		// TODO: Limit to max result limit? (xz)
 		return createQuery(hql)
 			.setParameterList("ids", ids)
-			.list();
+			.getResultList();
 	}
 
 	public List<E> getPage(int pageNumber, int maxResults)
@@ -346,13 +368,13 @@ public abstract class GenericDao<E extends AbstractEntity>
 		log.warn("Using of getAll() method is not recomended. Use getPage() instead.");
 
 		String hql = "from " + getEntityClassName();
-		return createQuery(hql).list();
+		return createQuery(hql).getResultList();
 	}
 
 	// TODO: Divide into 2 methods: "save" and "update".
 	public void saveOrUpdate(E entity)
 	{
-		getSession().saveOrUpdate(entity);
+		getSession().persist(entity);
 
 		// TODO: Refactor to JPA
 		/*if (entity.getEntityId() == null)
@@ -376,11 +398,18 @@ public abstract class GenericDao<E extends AbstractEntity>
 
 	// Utility methods --------------------------------------------------------
 
-	public boolean isUniqueCriteria(Criteria criteria)
+	public boolean isUniqueCriteria(List<Predicate> restrictions)
 	{
-		return 1 > (Long) criteria
-			.setProjection(Projections.rowCount())
-			.setFlushMode(FlushMode.MANUAL)
-			.uniqueResult();
+		//CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		//CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+		// Root<E> root = cq.from(getEntityClass());
+		// if (restrictions != null && !restrictions.isEmpty()) {
+			// cq.where(restrictions.toArray(new Predicate[0]));
+		// }
+		//cq.select(builder.count(root));
+		//return 1 > getSession().createQuery(cq).getSingleResult();
+
+		Long count = (Long) getSession().createQuery("select count(*) from " + (getEntityName() != null ? getEntityName() : getEntityClassName())).uniqueResult();
+		return count == 0;
 	}
 }

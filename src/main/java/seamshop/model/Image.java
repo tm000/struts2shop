@@ -1,11 +1,13 @@
 package seamshop.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.ForeignKey;
 
 // TODO: Low: Create "File" entity with name, size, ext, etc.
 @Entity
@@ -61,8 +63,7 @@ public class Image extends AbstractIdBasedEntity
 	// TODO: Rename to "uploader"? (n)
 	/** Image owner (uploader). */
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_image_user_id")
+	@JoinColumn(name = "user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_image_user_id"))
 	private User user;
 
 	@Override
@@ -82,6 +83,7 @@ public class Image extends AbstractIdBasedEntity
 		return fileName;
 	}
 
+	@StrutsParameter
 	public void setFileName(String fileName)
 	{
 		this.fileName = fileName;
@@ -92,6 +94,7 @@ public class Image extends AbstractIdBasedEntity
 		return fileSize;
 	}
 
+	@StrutsParameter
 	public void setFileSize(Long fileSize)
 	{
 		this.fileSize = fileSize;
@@ -102,6 +105,7 @@ public class Image extends AbstractIdBasedEntity
 		return width;
 	}
 
+	@StrutsParameter
 	public void setWidth(Integer width)
 	{
 		this.width = width;
@@ -112,6 +116,7 @@ public class Image extends AbstractIdBasedEntity
 		return height;
 	}
 
+	@StrutsParameter
 	public void setHeight(Integer height)
 	{
 		this.height = height;
@@ -122,6 +127,7 @@ public class Image extends AbstractIdBasedEntity
 		return description;
 	}
 
+	@StrutsParameter
 	public void setDescription(String description)
 	{
 		this.description = description;

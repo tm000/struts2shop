@@ -20,11 +20,11 @@
  * under the License.
  */
 -->
-<#if parameters.validate?default(false) == true>
+<#if attributes.validate?default(false) == true>
 <script type="text/javascript" src="${base}/struts/block/validation.js"></script>
-    <#if parameters.onsubmit??>
-        ${tag.addParameter('onsubmit', "${parameters.onsubmit}; return validateForm_${parameters.id}();")}
+    <#if attributes.onsubmit??>
+        ${tag.addParameter('onsubmit', "${attributes.onsubmit}; return validateForm_${attributes.id}();")}
     <#else>
-        ${tag.addParameter('onsubmit', "return validateForm_${parameters.id}();")}
+        ${tag.addParameter('onsubmit', "return validateForm_${attributes.id}();")}
     </#if>
 </#if>

@@ -1,11 +1,13 @@
 package seamshop.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.ForeignKey;
 
 /**
  * @author Alex Siman 2009-01-13
@@ -26,13 +28,11 @@ public class ProductImage extends AbstractIdBasedEntity
 	private Integer number;
 
 	@ManyToOne
-	@JoinColumn(name = "product_id", nullable = false)
-	@ForeignKey(name = "fk_product_image_product_id")
+	@JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_image_product_id"))
 	private Product product;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name = "image_id", nullable = false)
-	@ForeignKey(name = "fk_product_image_image_id")
+	@JoinColumn(name = "image_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_image_image_id"))
 	private Image image;
 
 	public ProductImage()
@@ -45,6 +45,7 @@ public class ProductImage extends AbstractIdBasedEntity
 		return number;
 	}
 
+	@StrutsParameter
 	public void setNumber(Integer number)
 	{
 		this.number = number;

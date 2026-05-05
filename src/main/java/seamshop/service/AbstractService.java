@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import seamshop.context.RequestContext;
@@ -18,8 +18,9 @@ import seamshop.model.Cart;
 import seamshop.model.User;
 import seamshop.util.Log;
 
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ValidationAwareSupport;
+import org.apache.struts2.ActionSupport;
+import org.apache.struts2.ValidationAwareSupport;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 /**
  * Base class for any service to work with domain model.
@@ -81,12 +82,13 @@ public abstract class AbstractService
 
 	public String escape(String html)
 	{
-		return StringEscapeUtils.escapeHtml(html);
+		return StringEscapeUtils.escapeHtml4(html);
 	}
 
-	// Based on [com.opensymphony.xwork2.ActionSupport] -----------------------
+	// Based on [org.apache.struts2.ActionSupport] -----------------------
 	// TODO: Low: Refactor: Duplication: See [action.AbstractAction] methods related to ValidationAwareSupport.
 
+	@StrutsParameter
 	public void setActionErrors(Collection<String> errorMessages)
 	{
 		getValidationAware().setActionErrors(errorMessages);
@@ -97,6 +99,7 @@ public abstract class AbstractService
 		return getValidationAware().getActionErrors();
 	}
 
+	@StrutsParameter
 	public void setActionMessages(Collection<String> messages)
 	{
 		getValidationAware().setActionMessages(messages);

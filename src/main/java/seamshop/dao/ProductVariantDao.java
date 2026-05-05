@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ import seamshop.util.CollectionUtils;
  * @author Alex Siman 2009-01-21
  */
 @Component
-@SuppressWarnings("unchecked")
 public class ProductVariantDao extends GenericDao<ProductVariant>
 {
 	@Autowired
@@ -50,8 +48,8 @@ public class ProductVariantDao extends GenericDao<ProductVariant>
 			"where product.id in (:productIds)" +
 			"order by number";
 
-		List<ProductVariant> allProductVariants = createQuery(hql)
-			.setParameterList("productIds", productIds, new LongType())
+		List<ProductVariant> allProductVariants = createQuery(hql, ProductVariant.class)
+			.setParameterList("productIds", productIds, Long.class)
 			.list();
 
 		if (!CollectionUtils.isNullOrEmpty(allProductVariants))
@@ -85,8 +83,8 @@ public class ProductVariantDao extends GenericDao<ProductVariant>
 			.toString();
 
 		// TODO: What about MAX_RESULTS? Add pager? (mb)
-		List<ProductVariant> productVariants = createQuery(hql)
-			.setLong("shopId", shopId)
+		List<ProductVariant> productVariants = createQuery(hql, ProductVariant.class)
+			.setParameter("shopId", shopId)
 			.list();
 
 //		log.debug("class of productVariants.get(0): " + productVariants.get(0).getClass());

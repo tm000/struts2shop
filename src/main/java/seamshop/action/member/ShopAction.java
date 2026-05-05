@@ -14,6 +14,8 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.dispatcher.multipart.UploadedFile;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,7 @@ import seamshop.consts.Spring;
 import seamshop.dto.Country;
 import seamshop.dto.Currency;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.Address;
 import seamshop.model.Image;
@@ -34,7 +36,9 @@ import seamshop.model.validation.UrlNameValidationResult;
 import seamshop.util.CollectionUtils;
 import seamshop.util.ImageUtils;
 
-import com.opensymphony.xwork2.Preparable;
+import org.apache.struts2.ActionSupport;
+import org.apache.struts2.Preparable;
+import org.apache.struts2.action.UploadedFilesAware;
 
 /*
  * TODO: Include common @SkipValidation methods (ex: list, edit,...) into "excludeMethods":
@@ -77,7 +81,7 @@ import com.opensymphony.xwork2.Preparable;
 @AllowedMethods({"list","view","add","save","saveAdd","edit","update","deleteConfirm","delete"})
 @SuppressWarnings("serial")
 public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
-	implements Preparable
+	implements Preparable, UploadedFilesAware 
 {
 	protected static final String FIELD_SHOP_NAME = "shop.name";
 	protected static final String FIELD_SHOP_URL_NAME = "shop.urlName";
@@ -106,6 +110,14 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 	private String logoContentType;
 	private String logoFileName;
 	private boolean deleteLogo = false;
+
+	@Override
+	public void withUploadedFiles(List<UploadedFile> uploadedFiles) {
+		if (!uploadedFiles.isEmpty()) {
+			this.logoFile = (File)uploadedFiles.get(0).getContent();
+			this.logoFileName = uploadedFiles.get(0).getOriginalName();
+		}
+	}
 
 	@Override
 	public void doBeforeValidation()
@@ -246,7 +258,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String save()
 	{
 		log.debug("---------------- save()");
@@ -263,7 +275,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String saveAdd()
 	{
 		log.debug("---------------- saveAdd()");
@@ -293,7 +305,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String update()
 	{
 		log.debug("---------------- update()");
@@ -317,7 +329,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String delete()
 	{
@@ -413,6 +425,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 		return countryCollection.getCollection();
 	}
 
+	@StrutsParameter(depth = 1)
 	public Shop getShop()
 	{
 		return shop;
@@ -428,6 +441,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 		return addresses;
 	}
 
+	@StrutsParameter
 	public void setAddresses(List<Address> addresses)
 	{
 		this.addresses = addresses;
@@ -435,21 +449,25 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 
 	// NOTE: Do NOT rename setter, it follows Struts2 convention for file uploading.
 	// See logoFile javadoc.
+	@StrutsParameter
 	public void setLogo(File logoFile)
 	{
 		this.logoFile = logoFile;
 	}
 
+	@StrutsParameter
 	public void setLogoContentType(String logoContentType)
 	{
 		this.logoContentType = logoContentType;
 	}
 
+	@StrutsParameter
 	public void setLogoFileName(String logoFileName)
 	{
 		this.logoFileName = logoFileName;
 	}
 
+	@StrutsParameter
 	public void setDeleteLogo(boolean deleteLogo)
 	{
 		this.deleteLogo = deleteLogo;
@@ -460,6 +478,7 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 		return description;
 	}
 
+	@StrutsParameter
 	public void setDescription(String description)
 	{
 		this.description = description;
@@ -484,6 +503,6 @@ public class ShopAction extends AbstractCrudMemberAction<Shop, Long>
 	@Override
 	protected void setEntity(Shop entity)
 	{
-		shop = entity;
+		this.shop = entity;
 	}
 }

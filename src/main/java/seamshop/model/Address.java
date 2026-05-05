@@ -1,15 +1,17 @@
 package seamshop.model;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static seamshop.util.StringBuilderUtils.removeCharsFromEnd;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.ForeignKey;
 
 import seamshop.messages.CountryCollection;
 
@@ -77,8 +79,7 @@ public class Address extends AbstractIdBasedEntity
 	private Double longitude;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = true, updatable = true)
-	@ForeignKey(name = "fk_address_user_id")
+	@JoinColumn(name = "user_id", nullable = true, updatable = true, foreignKey = @ForeignKey(name = "fk_address_user_id"))
 	private User user;
 
 	public String getName()
@@ -86,6 +87,7 @@ public class Address extends AbstractIdBasedEntity
 		return name;
 	}
 
+	@StrutsParameter
 	public void setName(String name)
 	{
 		this.name = name;
@@ -96,6 +98,7 @@ public class Address extends AbstractIdBasedEntity
 		return street;
 	}
 
+	@StrutsParameter
 	public void setStreet(String street)
 	{
 		this.street = street;
@@ -106,6 +109,7 @@ public class Address extends AbstractIdBasedEntity
 		return street2;
 	}
 
+	@StrutsParameter
 	public void setStreet2(String street2)
 	{
 		this.street2 = street2;
@@ -116,6 +120,7 @@ public class Address extends AbstractIdBasedEntity
 		return city;
 	}
 
+	@StrutsParameter
 	public void setCity(String city)
 	{
 		this.city = city;
@@ -126,6 +131,7 @@ public class Address extends AbstractIdBasedEntity
 		return state;
 	}
 
+	@StrutsParameter
 	public void setState(String state)
 	{
 		this.state = state;
@@ -136,6 +142,7 @@ public class Address extends AbstractIdBasedEntity
 		return country;
 	}
 
+	@StrutsParameter
 	public void setCountry(String country)
 	{
 		this.country = country;
@@ -146,6 +153,7 @@ public class Address extends AbstractIdBasedEntity
 		return postalCode;
 	}
 
+	@StrutsParameter
 	public void setPostalCode(String postalCode)
 	{
 		this.postalCode = postalCode;
@@ -156,6 +164,7 @@ public class Address extends AbstractIdBasedEntity
 		return phone;
 	}
 
+	@StrutsParameter
 	public void setPhone(String phone)
 	{
 		this.phone = phone;
@@ -166,6 +175,7 @@ public class Address extends AbstractIdBasedEntity
 		return email;
 	}
 
+	@StrutsParameter
 	public void setEmail(String email)
 	{
 		this.email = email;
@@ -176,6 +186,7 @@ public class Address extends AbstractIdBasedEntity
 		return latitude;
 	}
 
+	@StrutsParameter
 	public void setLatitude(Double latitude)
 	{
 		this.latitude = latitude;
@@ -186,6 +197,7 @@ public class Address extends AbstractIdBasedEntity
 		return longitude;
 	}
 
+	@StrutsParameter
 	public void setLongitude(Double longitude)
 	{
 		this.longitude = longitude;

@@ -1,5 +1,7 @@
 package seamshop.dto;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 /**
  * The examples of named codes:
  *
@@ -127,6 +129,7 @@ public abstract class NamedCode extends BaseDto implements Comparable<NamedCode>
 		return code;
 	}
 
+	@StrutsParameter
 	public void setCode(String code)
 	{
 		this.code = code;
@@ -137,6 +140,7 @@ public abstract class NamedCode extends BaseDto implements Comparable<NamedCode>
 		return name;
 	}
 
+	@StrutsParameter
 	public void setName(String name)
 	{
 		this.name = name;

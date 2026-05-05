@@ -20,4 +20,4 @@
  * under the License.
  */
 -->
-<#include "/${parameters.templateDir}/simple/debug.ftl" />
+<#include "/${attributes.templateDir}/simple/debug.ftl" />

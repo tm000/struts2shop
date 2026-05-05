@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -116,6 +117,7 @@ public class CategoryAction extends AbstractGuestAction
 		return categoryName;
 	}
 
+	@StrutsParameter
 	public void setCategoryName(String categoryName)
 	{
 		this.categoryName = categoryName;

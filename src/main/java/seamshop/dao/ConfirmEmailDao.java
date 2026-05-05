@@ -29,9 +29,9 @@ public class ConfirmEmailDao extends GenericDao<ConfirmEmail>
 			"from " + ConfirmEmail.class.getName() + " ce " +
 			"where (ce.email = :email) and (ce.user.id = :userId)";
 
-		return (ConfirmEmail) createQuery(hql)
-			.setString("email", email)
-			.setLong("userId", userId)
+		return createQuery(hql)
+			.setParameter("email", email)
+			.setParameter("userId", userId)
 			.uniqueResult();
 	}
 }

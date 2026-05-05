@@ -6,20 +6,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.IndexColumn;
-import org.hibernate.search.annotations.FullTextFilterDef;
-import org.hibernate.search.annotations.FullTextFilterDefs;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.OrderColumn;
+
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+// import org.hibernate.search.annotations.FullTextFilterDef;
+// import org.hibernate.search.annotations.FullTextFilterDefs;
+// import org.hibernate.search.annotations.Indexed;
+// import org.hibernate.search.annotations.IndexedEmbedded;
 
 import seamshop.service.search.filter.AbstractCountryFilterFactory;
 import seamshop.service.search.filter.ProductCountryFilterFactory;
@@ -33,11 +40,11 @@ import seamshop.service.search.filter.ProductCountryFilterFactory;
  */
 @Entity
 @Indexed
-@FullTextFilterDefs({
-	@FullTextFilterDef(
-		name = ProductCountryFilterFactory.FILTER_NAME,
-		impl = ProductCountryFilterFactory.class)
-})
+// @FullTextFilterDefs({
+// 	@FullTextFilterDef(
+// 		name = ProductCountryFilterFactory.FILTER_NAME,
+// 		impl = ProductCountryFilterFactory.class)
+// })
 @SuppressWarnings("serial")
 public class Product extends AbstractHtmlDescribedEntity
 {
@@ -56,11 +63,11 @@ public class Product extends AbstractHtmlDescribedEntity
 	// TODO: Rename to "variants"?
 	// TODO: Index product variants.
 	@OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@IndexColumn(name = "number")
+	@OrderColumn(name = "number")
 	private List<ProductVariant> productVariants = new ArrayList<ProductVariant>();
 
 	@OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@IndexColumn(name = "number")
+	@OrderColumn(name = "number")
 	private List<ProductImage> productImages = new ArrayList<ProductImage>();
 
 	// TODO: Must product contain Category.name in search index?
@@ -70,10 +77,9 @@ public class Product extends AbstractHtmlDescribedEntity
 	// TODO: Low: Note: For now (2010-01-05) product needs only "shop.countryCode"
 	//       to be indexed. But using "@IndexedEmbedded" makes indexed all
 	//       fields from Shop that are indexed in Shop itself.
-	@IndexedEmbedded(depth = 1)
+	@IndexedEmbedded(includeDepth = 1)
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "shop_id", nullable = false)
-	@ForeignKey(name = "fk_product_shop_id")
+	@JoinColumn(name = "shop_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_shop_id"))
 	private Shop shop = new Shop();
 
 	// Helper fields ----------------------------------------------------------
@@ -146,6 +152,7 @@ public class Product extends AbstractHtmlDescribedEntity
 		return productVariants;
 	}
 
+	@StrutsParameter
 	public void setProductVariants(List<ProductVariant> productVariants)
 	{
 		this.productVariants = productVariants;
@@ -156,6 +163,7 @@ public class Product extends AbstractHtmlDescribedEntity
 		return productImages;
 	}
 
+	@StrutsParameter
 	public void setProductImages(List<ProductImage> productImages)
 	{
 		this.productImages = productImages;
@@ -166,6 +174,7 @@ public class Product extends AbstractHtmlDescribedEntity
 		return productCategories;
 	}
 
+	@StrutsParameter
 	public void setProductCategories(Set<ProductCategory> productCategories)
 	{
 		this.productCategories = productCategories;
@@ -216,6 +225,7 @@ public class Product extends AbstractHtmlDescribedEntity
 		return images;
 	}
 
+	@StrutsParameter
 	public void setImages(List<Image> images)
 	{
 		this.images = images;
@@ -226,6 +236,7 @@ public class Product extends AbstractHtmlDescribedEntity
 		return categories;
 	}
 
+	@StrutsParameter
 	public void setCategories(List<Category> categories)
 	{
 		this.categories = categories;

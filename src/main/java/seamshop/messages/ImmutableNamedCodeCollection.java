@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import seamshop.dto.NamedCode;
 import seamshop.util.ClassUtils;
 import seamshop.util.Log;

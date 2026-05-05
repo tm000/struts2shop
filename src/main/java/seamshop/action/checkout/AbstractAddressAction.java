@@ -3,6 +3,7 @@ package seamshop.action.checkout;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import seamshop.dto.Country;
@@ -56,6 +57,7 @@ public abstract class AbstractAddressAction
 		return addressId;
 	}
 
+	@StrutsParameter
 	public void setAddressId(Long addressId)
 	{
 		this.addressId = addressId;

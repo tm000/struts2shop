@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 /**
  * @author Alex Siman 2009-11-13
  * @author Alex Siman 2009-11-16
@@ -36,7 +38,8 @@ public class LruCache<K, V> implements Cache<K, V>, Serializable
 			return queueIndex;
 		}
 
-		public void setQueueIndex(int queueIndex)
+	@StrutsParameter
+	public void setQueueIndex(int queueIndex)
 		{
 			this.queueIndex = queueIndex;
 		}

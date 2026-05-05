@@ -4,11 +4,11 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.opensymphony.xwork2.util.ClassLoaderUtil;
+import org.apache.struts2.util.ClassLoaderUtil;
 
 /**
  * Helper class for finding files by file name through classpath, etc.

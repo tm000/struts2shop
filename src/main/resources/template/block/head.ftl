@@ -21,4 +21,4 @@
  */
 -->
 <link rel="stylesheet" href="<@s.url value='/struts/block/styles.css' includeParams='none' encode='false' />" type="text/css" />
-<#include "/${parameters.templateDir}/simple/head.ftl" />
+<#include "/${attributes.templateDir}/simple/head.ftl" />

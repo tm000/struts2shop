@@ -1,7 +1,8 @@
 package seamshop.web.tag;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents XHTML tag attribute w/ name and value.
@@ -58,6 +59,7 @@ public class TagAttribute
 		return name;
 	}
 
+	@StrutsParameter
 	public void setName(String name)
 	{
 		this.name = name;
@@ -70,15 +72,17 @@ public class TagAttribute
 			: "";
 	}
 
+	@StrutsParameter
 	public void setValue(String value)
 	{
 		setValue(value, DEFAULT_ESCAPE_VALUE);
 	}
 
+	@StrutsParameter
 	public void setValue(String value, boolean escape)
 	{
 		this.value = escape
-			? StringEscapeUtils.escapeHtml(value)
+			? StringEscapeUtils.escapeHtml4(value)
 			: value;
 	}
 }

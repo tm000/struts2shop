@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import seamshop.context.RequestContext;
 
-import com.opensymphony.xwork2.ActionInvocation;
+import org.apache.struts2.ActionInvocation;
 
 /**
  * This interceptor initializes some {@link RequestContext} fields.

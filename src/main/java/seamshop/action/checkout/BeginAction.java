@@ -5,11 +5,11 @@ import static seamshop.action.checkout.AbstractCheckoutAction.PARAM_CHECKOUT_ID;
 
 import java.util.Map;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 import seamshop.context.util.Checkout;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 @Component("checkoutBeginAction")
 @Scope(Spring.ACTION_SCOPE)
@@ -81,7 +81,7 @@ public class BeginAction extends AbstractCheckoutAction
 				.getIdAndQuantityMapByShopId(shopId);
 
 			// If there are no items in this shopping cart from this shop.
-			if (/*MapUtils.isEmpty(cartItems)*/cartItems.isEmpty())
+			if (cartItems.isEmpty())
 			{
 				log.warn("Cart items not found.");
 				// TODO: i18n
@@ -117,6 +117,7 @@ public class BeginAction extends AbstractCheckoutAction
 		return shopId;
 	}
 
+	@StrutsParameter
 	public void setShopId(Long shopId)
 	{
 		this.shopId = shopId;

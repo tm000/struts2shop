@@ -20,7 +20,7 @@
  * under the License.
  */
 -->
-<#--include "/${parameters.templateDir}/block/controlheader.ftl" /-->
-<#include "/${parameters.templateDir}/${parameters.theme}/controlheader.ftl" />
-<#include "/${parameters.templateDir}/simple/optiontransferselect.ftl" />
-<#include "/${parameters.templateDir}/block/controlfooter.ftl" />
+<#--include "/${attributes.templateDir}/block/controlheader.ftl" /-->
+<#include "/${attributes.templateDir}/${attributes.theme}/controlheader.ftl" />
+<#include "/${attributes.templateDir}/simple/optiontransferselect.ftl" />
+<#include "/${attributes.templateDir}/block/controlfooter.ftl" />

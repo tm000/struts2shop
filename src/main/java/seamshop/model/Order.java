@@ -1,20 +1,22 @@
 package seamshop.model;
 
-import static org.apache.commons.lang.StringUtils.left;
+import static org.apache.commons.lang3.StringUtils.left;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+import jakarta.persistence.ForeignKey;
 
 import seamshop.model.enums.OrderStatus;
 
@@ -62,8 +64,7 @@ public class Order extends AbstractIdBasedEntity
 	private String email;
 
 	@ManyToOne
-	@JoinColumn(name = "billing_address_id", nullable = false)
-	@ForeignKey(name = "fk_order_billing_address_id")
+	@JoinColumn(name = "billing_address_id", nullable = false, foreignKey = @ForeignKey(name = "fk_order_billing_address_id"))
 	private Address billingAddress;
 
 	/**
@@ -71,18 +72,15 @@ public class Order extends AbstractIdBasedEntity
 	 * address will be used as shipping address.
 	 */
 	@ManyToOne
-	@JoinColumn(name = "shipping_address_id", nullable = true)
-	@ForeignKey(name = "fk_order_shipping_address_id")
+	@JoinColumn(name = "shipping_address_id", nullable = true, foreignKey = @ForeignKey(name = "fk_order_shipping_address_id"))
 	private Address shippingAddress;
 
 	@ManyToOne
-	@JoinColumn(name = "shipping_method_id", nullable = true, updatable = true)
-	@ForeignKey(name = "fk_order_shipping_method_id")
+	@JoinColumn(name = "shipping_method_id", nullable = true, updatable = true, foreignKey = @ForeignKey(name = "fk_order_shipping_method_id"))
 	private ShippingMethod shippingMethod;
 
 	@ManyToOne
-	@JoinColumn(name = "payment_method_id", nullable = true, updatable = true)
-	@ForeignKey(name = "fk_order_payment_method_id")
+	@JoinColumn(name = "payment_method_id", nullable = true, updatable = true, foreignKey = @ForeignKey(name = "fk_order_payment_method_id"))
 	private PaymentMethod paymentMethod;
 
 	/** Copy of <code>shippingMethod.name</code> at the moment of order creation. */
@@ -144,16 +142,14 @@ public class Order extends AbstractIdBasedEntity
 	private String shopName;
 
 	@ManyToOne
-	@JoinColumn(name = "shop_id", nullable = true, updatable = true)
-	@ForeignKey(name = "fk_order_shop_id")
+	@JoinColumn(name = "shop_id", nullable = true, updatable = true, foreignKey = @ForeignKey(name = "fk_order_shop_id"))
 	private Shop shop;
 
 	/**
 	 * Can be <code>null</code> if order created by guest (not registered user).
 	 */
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = true, updatable = false)
-	@ForeignKey(name = "fk_order_user_id")
+	@JoinColumn(name = "user_id", nullable = true, updatable = false, foreignKey = @ForeignKey(name = "fk_order_user_id"))
 	// TODO: Rename to "buyer"? (y)
 	private User customer;
 
@@ -189,6 +185,7 @@ public class Order extends AbstractIdBasedEntity
 		return number;
 	}
 
+	@StrutsParameter
 	public void setNumber(String number)
 	{
 		this.number = number;
@@ -199,6 +196,7 @@ public class Order extends AbstractIdBasedEntity
 		return email;
 	}
 
+	@StrutsParameter
 	public void setEmail(String email)
 	{
 		this.email = email;
@@ -252,6 +250,7 @@ public class Order extends AbstractIdBasedEntity
 		return shippingMethodName;
 	}
 
+	@StrutsParameter
 	public void setShippingMethodName(String shippingMethodName)
 	{
 		this.shippingMethodName = shippingMethodName;
@@ -272,6 +271,7 @@ public class Order extends AbstractIdBasedEntity
 		return paymentMethodName;
 	}
 
+	@StrutsParameter
 	public void setPaymentMethodName(String paymentMethodName)
 	{
 		this.paymentMethodName = paymentMethodName;
@@ -282,6 +282,7 @@ public class Order extends AbstractIdBasedEntity
 		return buyerNotes;
 	}
 
+	@StrutsParameter
 	public void setBuyerNotes(String buyerNotes)
 	{
 		this.buyerNotes = left(buyerNotes, NOTES_LENGTH);
@@ -292,6 +293,7 @@ public class Order extends AbstractIdBasedEntity
 		return sellerNotes;
 	}
 
+	@StrutsParameter
 	public void setSellerNotes(String sellerNotes)
 	{
 		this.sellerNotes = left(sellerNotes, NOTES_LENGTH);
@@ -322,6 +324,7 @@ public class Order extends AbstractIdBasedEntity
 		return currency;
 	}
 
+	@StrutsParameter
 	public void setCurrency(String currency)
 	{
 		this.currency = currency;
@@ -342,6 +345,7 @@ public class Order extends AbstractIdBasedEntity
 		return itemCount;
 	}
 
+	@StrutsParameter
 	public void setItemCount(Integer itemCount)
 	{
 		this.itemCount = itemCount;
@@ -352,6 +356,7 @@ public class Order extends AbstractIdBasedEntity
 		return totalQuantity;
 	}
 
+	@StrutsParameter
 	public void setTotalQuantity(Integer totalQuantity)
 	{
 		this.totalQuantity = totalQuantity;
@@ -362,6 +367,7 @@ public class Order extends AbstractIdBasedEntity
 		return orderItems;
 	}
 
+	@StrutsParameter
 	public void setOrderItems(Set<OrderItem> orderItems)
 	{
 		this.orderItems = orderItems;
@@ -382,6 +388,7 @@ public class Order extends AbstractIdBasedEntity
 		return shopName;
 	}
 
+	@StrutsParameter
 	public void setShopName(String shopName)
 	{
 		this.shopName = shopName;

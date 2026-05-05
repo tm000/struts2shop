@@ -20,24 +20,24 @@
  * under the License.
  */
 -->
-${parameters.after?if_exists}<#t/>
+${attributes.after?if_exists}<#t/>
     <#lt/>
-<#assign hasFieldErrors = parameters.name?? && fieldErrors?? && fieldErrors[parameters.name]??/>
+<#assign hasFieldErrors = attributes.name?? && fieldErrors?? && fieldErrors[attributes.name]??/>
 <#if hasFieldErrors>
-<ul <#rt/><#if parameters.id??>id="wwerr_${parameters.id}"<#rt/></#if> class="wwerr">
-<#list fieldErrors[parameters.name] as error>
+<ul <#rt/><#if attributes.id??>id="wwerr_${attributes.id}"<#rt/></#if> class="wwerr">
+<#list fieldErrors[attributes.name] as error>
     <li<#rt/>
-    <#if parameters.id??>
-     errorFor="${parameters.id}"<#rt/>
+    <#if attributes.id??>
+     errorFor="${attributes.id}"<#rt/>
     </#if>
     class="errorMessage">
-             ${error?html}
+             ${error}
     </li><#t/>
 </#list>
 </ul><#t/>
 </#if>
 
-<#if parameters.labelposition?default("top") == 'top'>
+<#if attributes.labelposition?default("top") == 'top'>
 </div> <#rt/>
 <#else>
 </span> <#rt/>

@@ -1,12 +1,16 @@
 package seamshop.dao;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
-import static org.hibernate.criterion.Restrictions.eq;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import seamshop.model.User;
 
 // TODO: Refactor "get*" DAO methods to "find*"? (yes)
@@ -62,16 +66,29 @@ public class UserDao extends GenericDao<User>
 
 		String hql =
 			"select u " +
-			"from " + User.class.getName() + " u " +
+			"from " + getEntityName() + " u " +
 			"where u.email = :email";
 
 		return (User) createQuery(hql)
-			.setString("email", email)
+			.setParameter("email", email)
 			.uniqueResult();
 	}
 
 	public boolean isPresentByEmail(String email)
 	{
-		return !isUniqueCriteria(createCriteria().add(eq("email", email)));
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+		Root<User> root = cq.from(getEntityClass());
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		restrictions.add(builder.equal(root.get("email"), email));
+		cq.select(builder.count(root));
+		return 0 < getSession().createQuery(cq).getSingleResult();
+		// return !isUniqueCriteria(restrictions);
+	}
+
+	@Override
+	protected String getEntityName()
+	{
+		return "UserEntity";
 	}
 }

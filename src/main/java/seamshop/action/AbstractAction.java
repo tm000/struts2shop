@@ -15,14 +15,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -73,17 +73,18 @@ import seamshop.util.CookieUtils;
 import seamshop.util.Log;
 import seamshop.util.UrlUtils;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionProxy;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.LocaleProvider;
-import com.opensymphony.xwork2.TextProvider;
-import com.opensymphony.xwork2.TextProviderFactory;
-import com.opensymphony.xwork2.Validateable;
-import com.opensymphony.xwork2.interceptor.ValidationAware;
-import com.opensymphony.xwork2.ValidationAwareSupport;
-import com.opensymphony.xwork2.util.ValueStack;
+import org.apache.struts2.action.Action;
+import org.apache.struts2.ActionContext;
+import org.apache.struts2.ActionProxy;
+import org.apache.struts2.ActionSupport;
+import org.apache.struts2.locale.LocaleProvider;
+import org.apache.struts2.text.TextProvider;
+import org.apache.struts2.text.TextProviderFactory;
+import org.apache.struts2.Validateable;
+import org.apache.struts2.interceptor.ValidationAware;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+import org.apache.struts2.ValidationAwareSupport;
+import org.apache.struts2.util.ValueStack;
 
 /*
  * TODO: Save selected locale to User entity.
@@ -429,7 +430,7 @@ public abstract class AbstractAction extends ActionSupport implements /*Action, 
 	{
 		// TODO: Note that StringEscapeUtils.escapeHtml() escape non latin chars
 		//       to its HTML entities. Maybe fix it.
-		return StringEscapeUtils.escapeHtml(html);
+		return StringEscapeUtils.escapeHtml4(html);
 	}
 
 	public Object escape(Object anyValue)
@@ -551,6 +552,7 @@ public abstract class AbstractAction extends ActionSupport implements /*Action, 
 		return page;
 	}
 
+	@StrutsParameter
 	public void setPage(Integer page)
 	{
 		this.page = page;
@@ -561,12 +563,13 @@ public abstract class AbstractAction extends ActionSupport implements /*Action, 
 		return results;
 	}
 
+	@StrutsParameter
 	public void setResults(Integer results)
 	{
 		this.results = results;
 	}
 
-	// Copied from [com.opensymphony.xwork2.ActionSupport] --------------------
+	// Copied from [org.apache.struts2.ActionSupport] --------------------
 	// TODO: Low: Refactor: Duplication: See [service.AbstractService] methods related to ValidationAwareSupport.
 
 //	public void setActionErrors(Collection<String> errorMessages)
@@ -768,7 +771,7 @@ public abstract class AbstractAction extends ActionSupport implements /*Action, 
 	 * <p/>
 	 * Subclasses should override this method to provide their business logic.
 	 * <p/>
-	 * See also {@link com.opensymphony.xwork2.Action#execute()}.
+	 * See also {@link org.apache.struts2.Action#execute()}.
 	 *
 	 * @return returns {@link #SUCCESS}
 	 * @throws Exception

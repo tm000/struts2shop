@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -207,12 +208,14 @@ public class ShopAction extends AbstractGuestAction
 
 	/** @deprecated Replace in all JSPs: "shopId" -> "id". */
 	@Deprecated
+	@StrutsParameter
 	public void setShopId(Long shopId)
 	{
 		this.shopId = shopId;
 	}
 
 	// TODO: Low: Leave only this method instead of setShopId
+	@StrutsParameter
 	public void setId(Long id)
 	{
 		shopId = id;
@@ -229,6 +232,7 @@ public class ShopAction extends AbstractGuestAction
 		return urlName;
 	}
 
+	@StrutsParameter
 	public void setUrlName(String urlName)
 	{
 		this.urlName = urlName;
@@ -239,6 +243,7 @@ public class ShopAction extends AbstractGuestAction
 		return categoryName;
 	}
 
+	@StrutsParameter
 	public void setCategoryName(String categoryName)
 	{
 		this.categoryName = categoryName;

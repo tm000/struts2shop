@@ -4,7 +4,13 @@ package seamshop.service.search;
 
 import java.util.List;
 
-import org.hibernate.search.jpa.FullTextQuery;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
+
+// import org.hibernate.search.jpa.FullTextQuery;
 
 import seamshop.model.AbstractEntity;
 import seamshop.service.search.filter.AbstractCountryFilterFactory;
@@ -18,17 +24,36 @@ public abstract class AbstractSearchServiceWithCountryCodes
 {
 	protected abstract String getCountryFilterName();
 
+	private final AbstractCountryFilterFactory countryFilterFactory;
+
+	public AbstractSearchServiceWithCountryCodes()
+	{
+		this.countryFilterFactory = null;
+	}
+
+	public AbstractSearchServiceWithCountryCodes(AbstractCountryFilterFactory countryFilterFactory)
+	{
+		this.countryFilterFactory = countryFilterFactory;
+	}
+
 	public SearchResult<List<E>> searchFor(String searchQuery, SP params)
 	{
-		FullTextQuery fullTextQuery = createFullTextQuery(searchQuery);
+		/*FullTextQuery*/Query fullTextQuery = createFullTextQuery(searchQuery);
 
-		List<String> countryCodes = params.getCountryCodes();
-		if (!/*isEmpty(countryCodes)*/countryCodes.isEmpty())
+		// List<String> countryCodes = params.getCountryCodes();
+		// if (!/*isEmpty(countryCodes)*/countryCodes.isEmpty())
+		if (this.countryFilterFactory != null)
 		{
-			fullTextQuery.enableFullTextFilter(getCountryFilterName())
-				.setParameter(AbstractCountryFilterFactory.PARAM_COUNTRY_CODES, countryCodes);
+		// 	// fullTextQuery.enableFullTextFilter(getCountryFilterName())
+		// 	// 	.setParameter(AbstractCountryFilterFactory.PARAM_COUNTRY_CODES, countryCodes);
+		// 	Query newCondition = new TermQuery(new Term("category", "books"));
+		// 	BooleanQuery.Builder booleanQueryBuilder = new BooleanQuery.Builder();
+		// 	booleanQueryBuilder.add(fullTextQuery, BooleanClause.Occur.MUST);
+		// 	booleanQueryBuilder.add(newCondition, BooleanClause.Occur.MUST);
+		// 	fullTextQuery = booleanQueryBuilder.build();
+			return getSearchResult(fullTextQuery, this.countryFilterFactory);
 		}
 
-		return getSearchResult(fullTextQuery);
+		return getSearchResult(fullTextQuery, null);
 	}
 }

@@ -9,9 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.NullArgumentException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import seamshop.exception.BlankArrayArgumentException;
 import seamshop.exception.BlankStringArgumentException;
@@ -85,7 +84,7 @@ public class ActionRoleRules
 	{
 		if (packagePath == null)
 		{
-			throw new NullArgumentException("packagePath");
+			throw new NullPointerException("packagePath");
 		}
 
 		Collection<UserRole> roles = packageRules.get(packagePath);

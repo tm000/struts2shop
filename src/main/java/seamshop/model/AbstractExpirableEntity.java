@@ -2,7 +2,7 @@ package seamshop.model;
 
 import java.util.Date;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * @author Alex Siman 2009-08-31

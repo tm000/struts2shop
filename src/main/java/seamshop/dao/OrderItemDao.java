@@ -21,7 +21,6 @@ import seamshop.model.Product;
 import seamshop.model.ProductVariant;
 
 @Component
-@SuppressWarnings("unchecked")
 public class OrderItemDao extends GenericDao<OrderItem>
 {
 	@Autowired
@@ -75,10 +74,10 @@ public class OrderItemDao extends GenericDao<OrderItem>
 			"join oi.order o " +
 			"where (o.id = :orderId) and (" + userIdPath + " = :userId)";
 
-		count = (Long) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.setLong("orderId", orderId)
-			.uniqueResult();
+		count = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId())
+			.setParameter("orderId", orderId)
+			.getSingleResult();
 
 		return count;
 	}
@@ -141,8 +140,8 @@ public class OrderItemDao extends GenericDao<OrderItem>
 			"order by oi.productName, oi.productVariantName";
 
 		orderItems = createPagedQuery(hql)
-			.setLong("orderId", orderId)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("orderId", orderId)
+			.setParameter("userId", getCurrentUserId())
 			.list();
 
 		// The end if there are no items in this order (does not make sense!).

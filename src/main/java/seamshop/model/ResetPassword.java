@@ -1,11 +1,11 @@
 package seamshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.ForeignKey;
 
 import seamshop.consts.Time;
 
@@ -25,8 +25,7 @@ public class ResetPassword extends AbstractExpirableEntity
 	private String passwordHash;*/
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_reset_password_user_id")
+	@JoinColumn(name = "user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_reset_password_user_id"))
 	private User user;
 
 	@Override

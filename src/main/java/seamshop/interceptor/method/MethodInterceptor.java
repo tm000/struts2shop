@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import seamshop.interceptor.AbstractInterceptor;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionInvocation;
+import org.apache.struts2.action.Action;
+import org.apache.struts2.ActionInvocation;
 
 /**
  * This interceptor determine if it can allow to execute action method, named

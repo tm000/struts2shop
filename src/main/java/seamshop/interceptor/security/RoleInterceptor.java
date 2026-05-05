@@ -10,8 +10,8 @@ import seamshop.action.AbstractAction;
 import seamshop.interceptor.AbstractInterceptor;
 import seamshop.model.enums.UserRole;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionInvocation;
+import org.apache.struts2.action.Action;
+import org.apache.struts2.ActionInvocation;
 
 /**
  * @author Alex Siman 2009-10-28

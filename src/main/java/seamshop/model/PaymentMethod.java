@@ -1,10 +1,10 @@
 package seamshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.ForeignKey;
 
 /**
  * Represents a payment method of shop(s).
@@ -21,8 +21,7 @@ public class PaymentMethod extends AbstractHtmlDescribedEntity
 //	private boolean hidden = false;
 
 	@ManyToOne
-	@JoinColumn(name = "shop_id", nullable = false, updatable = true)
-	@ForeignKey(name = "fk_payment_method_shop_id")
+	@JoinColumn(name = "shop_id", nullable = false, updatable = true, foreignKey = @ForeignKey(name = "fk_payment_method_shop_id"))
 	private Shop shop;
 
 	// Helper fields ----------------------------------------------------------

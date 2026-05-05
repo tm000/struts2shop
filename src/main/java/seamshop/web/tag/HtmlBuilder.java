@@ -4,8 +4,8 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import seamshop.util.CollectionUtils;
 import seamshop.util.Log;
@@ -111,7 +111,7 @@ public class HtmlBuilder
 	public HtmlBuilder append(String text, boolean escape)
 	{
 		builder.append(escape
-			? StringEscapeUtils.escapeHtml(text)
+			? StringEscapeUtils.escapeHtml4(text)
 			: text);
 
 		return this;

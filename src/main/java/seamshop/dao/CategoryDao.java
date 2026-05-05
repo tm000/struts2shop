@@ -13,7 +13,6 @@ import seamshop.model.ProductCategory;
 import seamshop.util.CollectionUtils;
 
 @Component
-@SuppressWarnings("unchecked")
 public class CategoryDao extends GenericDao<Category>
 {
 	@Autowired
@@ -38,9 +37,9 @@ public class CategoryDao extends GenericDao<Category>
 			Category.class.getSimpleName() + " c " +
 			"where (c.user.id = :userId) and (c.id = :categoryId)";
 
-		category = (Category) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.setLong("categoryId", categoryId)
+		category = createQuery(hql)
+			.setParameter("userId", getCurrentUserId())
+			.setParameter("categoryId", categoryId)
 			.uniqueResult();
 
 		if (category != null)
@@ -65,8 +64,8 @@ public class CategoryDao extends GenericDao<Category>
 			"from " + Category.class.getName() + " c " +
 			"where c.user.id = :userId";
 
-		count = (Long) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
+		count = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId())
 			.uniqueResult();
 
 		return count;
@@ -94,7 +93,7 @@ public class CategoryDao extends GenericDao<Category>
 			"order by c.name";
 
 		List<Category> categories = createPagedQuery(hql)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("userId", getCurrentUserId())
 			.list();
 
 		if (CollectionUtils.isNullOrEmpty(categories))
@@ -134,15 +133,15 @@ public class CategoryDao extends GenericDao<Category>
 			"where pc.product.id = :productId " +
 			"order by pc.category.name";
 
-		return createQuery(hql)
-			.setLong("productId", productId)
+		return createQuery(hql, String.class)
+			.setParameter("productId", productId)
 			.list();
 	}
 
 	public Long countDistinctCategoriesNames()
 	{
 		String hql = "select count(distinct name) from " + Category.class.getName();
-		Long count = (Long) createQuery(hql).uniqueResult();
+		Long count = createQuery(hql, Long.class).uniqueResult();
 
 		return count;
 	}
@@ -160,7 +159,7 @@ public class CategoryDao extends GenericDao<Category>
 			"group by c.name " +
 			"order by count(pc.product.id) desc";
 
-		List<Object[]> list = createPagedQuery(hql)
+		List<Object[]> list = createPagedQuery(hql, Object[].class)
 			.list();
 
 		return convertToModel(list);
@@ -191,8 +190,8 @@ public class CategoryDao extends GenericDao<Category>
 //			"order by count(pc.product.id) desc";
 
 		// TODO: What about MAX_RESULTS? Add pager? (mb)
-		List<Object[]> list = createQuery(hql)
-			.setLong("shopId", shopId)
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameter("shopId", shopId)
 			.list();
 
 		return convertToModel(list);

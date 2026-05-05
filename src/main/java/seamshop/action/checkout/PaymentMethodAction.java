@@ -1,6 +1,6 @@
 package seamshop.action.checkout;
 
-import static com.opensymphony.xwork2.Action.SUCCESS;
+import static org.apache.struts2.action.Action.SUCCESS;
 import static seamshop.action.checkout.AbstractCheckoutAction.PARAM_CHECKOUT_ID;
 import static seamshop.consts.ResultType.REDIRECT_ACTION;
 
@@ -11,6 +11,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import seamshop.interceptor.BeforeValidationAware;
 //import seamshop.interceptor.method.AllowedMethod;
 import seamshop.model.PaymentMethod;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 /**
  * @author Alex Siman 2009-11-09
@@ -106,6 +107,7 @@ public class PaymentMethodAction extends AbstractCheckoutInProcessAction
 		return paymentMethodId;
 	}
 
+	@StrutsParameter
 	public void setPaymentMethodId(Long paymentMethodId)
 	{
 		this.paymentMethodId = paymentMethodId;

@@ -12,7 +12,6 @@ import seamshop.dao.enums.UserRoleAgainstOrder;
 import seamshop.model.Order;
 
 @Component
-@SuppressWarnings("unchecked")
 public class OrderDao extends GenericDao<Order>
 {
 	/**
@@ -32,8 +31,8 @@ public class OrderDao extends GenericDao<Order>
 			"from " + Order.class.getName() + " o " +
 			"where o.shop.id = :shopId";
 
-		count = (Long) createQuery(hql)
-			.setLong("shopId", shopId)
+		count = createQuery(hql, Long.class)
+			.setParameter("shopId", shopId)
 			.uniqueResult();
 
 		return count;
@@ -78,8 +77,8 @@ public class OrderDao extends GenericDao<Order>
 			"from " + Order.class.getName() + " o " +
 			"where " + userIdPath + " = :userId";
 
-		count = (Long) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
+		count = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId())
 			.uniqueResult();
 
 		return count;
@@ -134,9 +133,9 @@ public class OrderDao extends GenericDao<Order>
 			"join fetch o.shop s " +
 			"where (o.id = :orderId) and (" + userIdPath + " = :userId)";
 
-		return (Order) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.setLong("orderId", orderId)
+		return createQuery(hql, Order.class)
+			.setParameter("userId", getCurrentUserId())
+			.setParameter("orderId", orderId)
 			.uniqueResult();
 	}
 
@@ -184,8 +183,8 @@ public class OrderDao extends GenericDao<Order>
 			"where " + userIdPath + " = :userId " +
 			"order by o.created desc";
 
-		return createPagedQuery(hql)
-			.setLong("userId", getCurrentUserId())
+		return createPagedQuery(hql, Order.class)
+			.setParameter("userId", getCurrentUserId())
 			.list();
 	}
 }

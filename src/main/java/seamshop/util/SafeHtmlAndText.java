@@ -1,5 +1,7 @@
 package seamshop.util;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 /**
  * Represents a result of purifying HTML of XSS.
  *
@@ -28,6 +30,7 @@ public class SafeHtmlAndText
 		return html;
 	}
 
+	@StrutsParameter
 	public void setHtml(String html)
 	{
 		this.html = html;
@@ -38,6 +41,7 @@ public class SafeHtmlAndText
 		return text;
 	}
 
+	@StrutsParameter
 	public void setText(String text)
 	{
 		this.text = text;

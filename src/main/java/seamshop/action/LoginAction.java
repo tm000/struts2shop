@@ -1,12 +1,13 @@
 package seamshop.action;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -15,13 +16,12 @@ import seamshop.consts.Interceptor;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 import seamshop.consts.Time;
-//import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.Session;
 import seamshop.model.User;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 // TODO: Low: Impl "Return to prev page". Maybe w/ URL param "from" or "returnto".
 @Component
@@ -79,7 +79,7 @@ public class LoginAction extends AbstractGuestAction
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String submit()
 	{
 		logForTest();
@@ -157,6 +157,7 @@ public class LoginAction extends AbstractGuestAction
 		return email;
 	}
 
+	@StrutsParameter
 	public void setEmail(String email)
 	{
 		this.email = email;
@@ -167,6 +168,7 @@ public class LoginAction extends AbstractGuestAction
 		return password;
 	}
 
+	@StrutsParameter
 	public void setPassword(String password)
 	{
 		this.password = password;

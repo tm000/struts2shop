@@ -7,6 +7,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -16,12 +17,12 @@ import seamshop.consts.Interceptor;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.ConfirmEmail;
 import seamshop.model.User;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 @Component
 @Scope(Spring.ACTION_SCOPE)
@@ -57,7 +58,7 @@ public class RegisterAction extends LoginAction
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@Override
 	public String submit()
 	{
@@ -120,6 +121,7 @@ public class RegisterAction extends LoginAction
 		return firstName;
 	}
 
+	@StrutsParameter
 	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
@@ -130,6 +132,7 @@ public class RegisterAction extends LoginAction
 		return lastName;
 	}
 
+	@StrutsParameter
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
@@ -140,6 +143,7 @@ public class RegisterAction extends LoginAction
 		return passwordControl;
 	}
 
+	@StrutsParameter
 	public void setPasswordControl(String passwordControl)
 	{
 		this.passwordControl = passwordControl;

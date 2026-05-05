@@ -1,12 +1,18 @@
 package seamshop.model;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
-import org.hibernate.search.annotations.Boost;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+// import org.hibernate.search.annotations.Boost;
+// import org.hibernate.search.annotations.Field;
+// import org.hibernate.search.annotations.Fields;
+// import org.hibernate.search.annotations.Index;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 /**
  * @see AbstractHtmlDescribedEntity
@@ -22,13 +28,13 @@ public abstract class AbstractNamedEntity extends AbstractIdBasedEntity
 	public static final String[] INDEXED_FIELDS = new String[] {"name"};
 
 	@Column(length = NAME_LENGTH, nullable = false)
-	@Fields({
-		@Field(index = Index.TOKENIZED)/*,
+	// @Fields({
+		@FullTextField/*,
 		@Field(name = "nameForSort", index = Index.UN_TOKENIZED)*/
-	})
+	// })
 	// "@Boost" annotation means that "name" must be more important than
 	// other entity fields in full text search.
-	@Boost(2)
+	// @Boost(2)
 	private String name;
 
 	@Override
@@ -54,6 +60,7 @@ public abstract class AbstractNamedEntity extends AbstractIdBasedEntity
 		return name;
 	}
 
+	@StrutsParameter
 	public void setName(String name)
 	{
 		this.name = name;

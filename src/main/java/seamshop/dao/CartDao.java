@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.type.LongType;
 import org.springframework.stereotype.Component;
 
 import seamshop.dto.Subcart;
@@ -16,7 +15,6 @@ import seamshop.model.Shop;
 import seamshop.util.CollectionUtils;
 
 @Component
-@SuppressWarnings("unchecked")
 public class CartDao extends GenericDao<Cart>
 {
 	// TODO: Cache in RequestContext? (xz) or cache by Ehcache (y)
@@ -38,8 +36,8 @@ public class CartDao extends GenericDao<Cart>
 			"from " + CartItem.class.getName() + " ci " +
 			"where ci.cart.id = :cartId";
 
-		count = (Long) createQuery(hql)
-			.setLong("cartId", getCartId())
+		count = createQuery(hql, Long.class)
+			.setParameter("cartId", getCartId())
 			.uniqueResult();
 
 		return count;
@@ -70,8 +68,8 @@ public class CartDao extends GenericDao<Cart>
 				"where ci.cart.id = :cartId" +
 			") order by s.name";
 
-		List<Shop> shops = createPagedQuery(hql)
-			.setLong("cartId", cartId)
+		List<Shop> shops = createPagedQuery(hql, Shop.class)
+			.setParameter("cartId", cartId)
 			.list();
 
 		// If there are no shops by this cart UUID on this page.
@@ -98,9 +96,9 @@ public class CartDao extends GenericDao<Cart>
 			"join pv.product.shop s " +
 			"where (ci.cart.id = :cartId) and (s.id in (:shopIds))";
 
-		List<Object[]> totals = createQuery(hql)
-			.setLong("cartId", cartId)
-			.setParameterList("shopIds", pageShopIds, new LongType())
+		List<Object[]> totals = createQuery(hql, Object[].class)
+			.setParameter("cartId", cartId)
+			.setParameterList("shopIds", pageShopIds, Long.class)
 			.list();
 
 		Map<Long, BigDecimal> shopIdAndTotal = new HashMap<Long, BigDecimal>();
@@ -129,9 +127,9 @@ public class CartDao extends GenericDao<Cart>
 			"where (ci.cart.id = :cartId) and (s.id in (:shopIds)) " +
 			"group by s.id";
 
-		List<Object[]> counts = createQuery(hql)
-			.setLong("cartId", cartId)
-			.setParameterList("shopIds", pageShopIds, new LongType())
+		List<Object[]> counts = createQuery(hql, Object[].class)
+			.setParameter("cartId", cartId)
+			.setParameterList("shopIds", pageShopIds, Long.class)
 			.list();
 
 		for (Object[] objects : counts)

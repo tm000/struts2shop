@@ -1,7 +1,5 @@
 package seamshop.dao;
 
-//import static org.apache.commons.collections.CollectionUtils.isEmpty;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,12 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.CacheMode;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
-import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +43,7 @@ public class CartItemDao extends GenericDao<CartItem>
 
 		// TODO: Limit to max result limit? (xz, y) Or scroll.
 		return createQuery(hql)
-			.setLong("cartId", getCartId())
+			.setParameter("cartId", getCartId())
 			.setParameterList("cartItemsIds", cartItemsIds)
 			.list();
 	}
@@ -71,7 +67,7 @@ public class CartItemDao extends GenericDao<CartItem>
 			"where (cart.id = :cartId) and (id in (:cartItemsIds))";
 
 		createQuery(hql)
-			.setLong("cartId", getCartId())
+			.setParameter("cartId", getCartId())
 			.setParameterList("cartItemsIds", cartItemsIds)
 			.executeUpdate();
 	}
@@ -93,8 +89,8 @@ public class CartItemDao extends GenericDao<CartItem>
 			"where (ci.cart.id = :cartId) and (s.id = :shopId)";
 
 		return createQuery(hql)
-			.setLong("cartId", getCartId())
-			.setLong("shopId", shopId)
+			.setParameter("cartId", getCartId())
+			.setParameter("shopId", shopId)
 			.setCacheMode(CacheMode.IGNORE)
 			.scroll(ScrollMode.FORWARD_ONLY);
 	}
@@ -118,7 +114,7 @@ public class CartItemDao extends GenericDao<CartItem>
 			.toString();
 
 		return createQuery(hql)
-			.setParameterList("ids", ids, new LongType())
+			.setParameterList("ids", ids, Long.class)
 			.setCacheMode(CacheMode.IGNORE)
 			.list();
 	}
@@ -143,9 +139,9 @@ public class CartItemDao extends GenericDao<CartItem>
 			.append("where (ci.cart.id = :cartId) and (s.id = :shopId)")
 			.toString();
 
-		List<Object[]> list = createQuery(hql)
-			.setLong("cartId", getCartId())
-			.setLong("shopId", shopId)
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameter("cartId", getCartId())
+			.setParameter("shopId", shopId)
 			.list();
 
 		for (Object[] varIdAndQuantity : list)
@@ -170,8 +166,8 @@ public class CartItemDao extends GenericDao<CartItem>
 			"where (cart.id = :cartId) and (productVariant.id = :productVariantId)";
 
 		return (CartItem) createQuery(hql)
-			.setLong("cartId", getCartId())
-			.setLong("productVariantId", productVariantId)
+			.setParameter("cartId", getCartId())
+			.setParameter("productVariantId", productVariantId)
 			.uniqueResult();
 	}
 
@@ -213,12 +209,12 @@ public class CartItemDao extends GenericDao<CartItem>
 			"order by ci.created desc";
 
 		Query query = createQuery(hql)
-			.setLong("cartId", getCartId())
+			.setParameter("cartId", getCartId())
 			.setFirstResult(0)	// TODO: Refactor: externalize. Use pager?
 			.setMaxResults(10);	// TODO: Refactor: externalize. Use pager?
 
 		cartItems =
-			(shopId == null ? query : query.setLong("shopId", shopId))
+			(shopId == null ? query : query.setParameter("shopId", shopId))
 			.list();
 
 		// If there are no items in this shopping cart.
@@ -262,7 +258,7 @@ public class CartItemDao extends GenericDao<CartItem>
 			"where cart.id = :cartId";
 
 		createQuery(hql)
-			.setLong("cartId", getCartId())
+			.setParameter("cartId", getCartId())
 			.executeUpdate();
 	}
 }

@@ -1,5 +1,7 @@
 package seamshop.service.search;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 /**
  * @author Alex Siman 2009-12-31
  */
@@ -8,7 +10,7 @@ public class SearchResult<R>
 	private R result;
 
 	/** Size of all results. */
-	private int resultSize = 0;
+	private long resultSize = 0;
 
 	public R getResult()
 	{
@@ -20,12 +22,13 @@ public class SearchResult<R>
 		this.result = result;
 	}
 
-	public int getResultSize()
+	public long getResultSize()
 	{
 		return resultSize;
 	}
 
-	public void setResultSize(int resultSize)
+	@StrutsParameter
+	public void setResultSize(long resultSize)
 	{
 		this.resultSize = resultSize;
 	}

@@ -20,6 +20,6 @@
  * under the License.
  */
 -->
-<#include "/${parameters.templateDir}/block/controlheader-core.ftl">
+<#include "/${attributes.templateDir}/block/controlheader-core.ftl">
 <td class="wwctrl">
     

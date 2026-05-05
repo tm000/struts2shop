@@ -7,7 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 import seamshop.dao.GenericDao;
 import seamshop.dto.BaseDto;
@@ -87,6 +88,7 @@ public class Pager extends BaseDto
 		return page;
 	}
 
+	@StrutsParameter
 	public void setPage(int page)
 	{
 		if (page < 1)
@@ -96,6 +98,7 @@ public class Pager extends BaseDto
 		this.page = page;
 	}
 
+	@StrutsParameter
 	public void setPage(Integer page)
 	{
 		if (page != null)
@@ -209,6 +212,7 @@ public class Pager extends BaseDto
 		return results;
 	}
 
+	@StrutsParameter
 	public void setResults(int results)
 	{
 		this.results = results;
@@ -219,12 +223,14 @@ public class Pager extends BaseDto
 		return maxResults;
 	}
 
+	@StrutsParameter
 	public void setMaxResults(int maxResults)
 	{
 		this.maxResults = maxResults;
 		maxResultsSet.add(Integer.valueOf(maxResults));
 	}
 
+	@StrutsParameter
 	public void setMaxResults(Integer maxResults)
 	{
 		if (maxResults != null)
@@ -248,6 +254,7 @@ public class Pager extends BaseDto
 		return allResults;
 	}
 
+	@StrutsParameter
 	public void setAllResults(long allResults)
 	{
 		this.allResults = allResults;
@@ -258,6 +265,7 @@ public class Pager extends BaseDto
 		return url;
 	}
 
+	@StrutsParameter
 	public void setUrl(String url)
 	{
 		this.url = url;
@@ -312,16 +320,18 @@ public class Pager extends BaseDto
 	/**
 	 * Alias for {@link #setParameter(String, Object)} to be used in OGNL expressions.
 	 */
+	@StrutsParameter
 	public void setParam(String paramName, Object paramValue)
 	{
 		setParameter(paramName, paramValue);
 	}
 
+	@StrutsParameter
 	public void setParameter(String paramName, Object paramValue)
 	{
 		if (paramValue instanceof String)
 		{
-			paramValue = StringEscapeUtils.escapeHtml((String) paramValue);
+			paramValue = StringEscapeUtils.escapeHtml4((String) paramValue);
 		}
 		parameters.put(paramName, paramValue);
 	}

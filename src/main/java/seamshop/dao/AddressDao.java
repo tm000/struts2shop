@@ -34,13 +34,12 @@ public class AddressDao extends GenericDao<Address>
 			.append("order by a.created")
 			.toString();
 
-		return (Address) createQuery(hql)
-			.setLong("addressId", addressId)
-			.setLong("userId", getCurrentUserId())
+		return createQuery(hql)
+			.setParameter("addressId", addressId)
+			.setParameter("userId", getCurrentUserId())
 			.uniqueResult();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Address> getAllMine()
 	{
 		if (!hasCurrentUser())
@@ -57,7 +56,7 @@ public class AddressDao extends GenericDao<Address>
 			.toString();
 
 		return createQuery(hql)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("userId", getCurrentUserId())
 			.list();
 	}
 }

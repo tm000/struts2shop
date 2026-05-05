@@ -1,11 +1,11 @@
 package seamshop.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.ForeignKey;
 
 /**
  * @author Alex Siman 2008-12-24
@@ -17,13 +17,11 @@ public class ProductCategory extends AbstractIdBasedEntity
 	// TODO: Use productID + categoryID as primary key?
 
 	@ManyToOne
-	@JoinColumn(name = "product_id", nullable = false)
-	@ForeignKey(name = "fk_product_category_product_id")
+	@JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_category_product_id"))
 	private Product product;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name = "category_id", nullable = false)
-	@ForeignKey(name = "fk_product_category_category_id")
+	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_category_category_id"))
 	private Category category;
 
 	public Product getProduct()

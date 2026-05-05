@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,12 +25,12 @@ import seamshop.consts.Spring;
 import seamshop.dao.PaymentMethodDao;
 import seamshop.dto.Currency;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.PaymentMethod;
 import seamshop.model.Shop;
 
-import com.opensymphony.xwork2.Preparable;
+import org.apache.struts2.Preparable;
 
 /**
  * @author Alex Siman 2009-11-09
@@ -148,7 +149,7 @@ public class PaymentMethodAction extends AbstractHasShopMemberAction<PaymentMeth
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String save()
 	{
 		log.debug("call save()");
@@ -166,7 +167,7 @@ public class PaymentMethodAction extends AbstractHasShopMemberAction<PaymentMeth
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String saveAdd()
 	{
 		log.debug("call saveAdd()");
@@ -196,7 +197,7 @@ public class PaymentMethodAction extends AbstractHasShopMemberAction<PaymentMeth
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String update()
 	{
 		log.debug("call update()");
@@ -220,7 +221,7 @@ public class PaymentMethodAction extends AbstractHasShopMemberAction<PaymentMeth
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String delete()
 	{
@@ -270,6 +271,7 @@ public class PaymentMethodAction extends AbstractHasShopMemberAction<PaymentMeth
 		return currencyCollection.getCollection();
 	}
 
+	@StrutsParameter(depth = 1)
 	public PaymentMethod getPaymentMethod()
 	{
 		return paymentMethod;
@@ -285,6 +287,7 @@ public class PaymentMethodAction extends AbstractHasShopMemberAction<PaymentMeth
 		return description;
 	}
 
+	@StrutsParameter
 	public void setDescription(String description)
 	{
 		this.description = description;

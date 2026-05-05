@@ -41,8 +41,8 @@ public class PaymentMethodDao extends AbstractHasShopDao<PaymentMethod>
 			.toString();
 
 		paymentMethod = (PaymentMethod) createQuery(hql)
-			.setLong("paymentMethodId", paymentMethodId)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("paymentMethodId", paymentMethodId)
+			.setParameter("userId", getCurrentUserId())
 			.uniqueResult();
 
 		return paymentMethod;
@@ -64,9 +64,9 @@ public class PaymentMethodDao extends AbstractHasShopDao<PaymentMethod>
 			.append("where pm.shop.user.id = :userId")
 			.toString();
 
-		count = (Long) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.uniqueResult();
+		count = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId())
+			.getSingleResult();
 
 		return count;
 	}
@@ -88,7 +88,7 @@ public class PaymentMethodDao extends AbstractHasShopDao<PaymentMethod>
 			.toString();
 
 		return createPagedQuery(hql)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("userId", getCurrentUserId())
 			.list();
 	}
 }

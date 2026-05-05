@@ -1,6 +1,6 @@
 package seamshop.util;
 
-import static org.apache.commons.lang.StringUtils.abbreviate;
+import static org.apache.commons.lang3.StringUtils.abbreviate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

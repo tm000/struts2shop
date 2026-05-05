@@ -2,12 +2,12 @@ package seamshop.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.ForeignKey;
 
 /**
  * Represents a shipping method of shop(s).
@@ -30,8 +30,7 @@ public class ShippingMethod extends AbstractHtmlDescribedEntity
 	private BigDecimal price = BigDecimal.ZERO;
 
 	@ManyToOne
-	@JoinColumn(name = "shop_id", nullable = false, updatable = true)
-	@ForeignKey(name = "fk_shipping_method_shop_id")
+	@JoinColumn(name = "shop_id", nullable = false, updatable = true, foreignKey = @ForeignKey(name = "fk_shipping_method_shop_id"))
 	private Shop shop;
 
 	// Helper fields ----------------------------------------------------------

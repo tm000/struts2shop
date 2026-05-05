@@ -3,17 +3,19 @@
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="page" uri="http://www.opensymphony.com/sitemesh/page" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
+	<sj:head/>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<title><decorator:title default="Welcome!"/> - Struts2Shop</title>
 		<link rel="shortcut icon" type="image/x-icon" href="<%= request.getContextPath() %>/favicon.ico"/>
 		<link rel="stylesheet" type="text/css" media="screen" href="<%= request.getContextPath() %>/css/main.css"/>
 		<link rel="stylesheet" type="text/css" media="screen" href="<%= request.getContextPath() %>/css/struts.css"/>
-		<link rel="stylesheet" type="text/css" media="screen" href="<%= request.getContextPath() %>/lib/jquery-plugins/fancybox/1.2.6/jquery.fancybox.css"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 		<decorator:head/>
 	</head>
 	
@@ -93,19 +95,18 @@
 		--%>
 		
 		<%-- TODO: PRODUCTION --%>
-		<%----%>
+		<%--
 		<script type="text/javascript" 
 			src="<%= request.getContextPath() %>/lib/jquery/1.3.2/jquery-1.3.2.min.js"></script>
-		
+		--%>
 		<%-- Used to submit form via AJAX. --%>
 		<%-- TODO: Page speed: Use on pages that only required this plugin, 
 		     like pages w/ button "Add to cart". --%>
 		<script type="text/javascript" 
-			src="<%= request.getContextPath() %>/lib/jquery-plugins/form/2.36/jquery.form.min.js"></script>
+			src="static/js/plugins/jquery.form.min.js"></script>
 		
 		<%-- Used to select shopping countries. --%>
-		<script type="text/javascript" 
-			src="<%= request.getContextPath() %>/lib/jquery-plugins/fancybox/1.2.6/jquery.fancybox.pack.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 		
 		<script type="text/javascript" 
 			src="<%= request.getContextPath() %>/js/main.js"></script>

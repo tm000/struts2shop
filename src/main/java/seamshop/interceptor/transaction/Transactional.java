@@ -18,5 +18,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Transactional
 {
-	TransactionType value() default TransactionType.READ;
+	MyTransactionType value() default MyTransactionType.READ;
 }

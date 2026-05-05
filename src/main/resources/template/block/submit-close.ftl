@@ -1,1 +1,1 @@
-<#include "/${parameters.templateDir}/simple/submit-close.ftl" />
+<#include "/${attributes.templateDir}/simple/submit-close.ftl" />

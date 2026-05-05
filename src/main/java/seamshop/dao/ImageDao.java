@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.type.LongType;
 import org.springframework.stereotype.Component;
 
 import seamshop.model.Image;
@@ -16,7 +15,6 @@ import seamshop.model.ProductImage;
 import seamshop.util.CollectionUtils;
 
 @Component
-@SuppressWarnings("unchecked")
 public class ImageDao extends GenericDao<Image>
 {
 	public Image getTitleImageByProductId(Long productId)
@@ -41,8 +39,8 @@ public class ImageDao extends GenericDao<Image>
 			ProductImage.class.getSimpleName() + " pi " +
 			"where pi.product.id in (:productIds) and pi.number = minindex(pi.product.productImages)";
 
-		List<Object[]> list = createQuery(hql)
-			.setParameterList("productIds", productIds, new LongType())
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameterList("productIds", productIds, Long.class)
 			.list();
 
 		Map<Long, Image> map = new HashMap<Long, Image>();
@@ -77,8 +75,8 @@ public class ImageDao extends GenericDao<Image>
 			"where pi.product.id in (:productIds) " +
 			"order by pi.number";
 
-		List<Object[]> list = createQuery(hql)
-			.setParameterList("productIds", productIds, new LongType())
+		List<Object[]> list = createQuery(hql, Object[].class)
+			.setParameterList("productIds", productIds, Long.class)
 			.list();
 
 		Map<Long, List<Image>> map = new HashMap<Long, List<Image>>();

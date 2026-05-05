@@ -3,6 +3,7 @@ package seamshop.action;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,12 +11,12 @@ import org.springframework.stereotype.Component;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.ConfirmEmail;
 import seamshop.model.User;
 
-import com.opensymphony.xwork2.Action;
+import org.apache.struts2.action.Action;
 
 @Component
 @Scope(Spring.ACTION_SCOPE)
@@ -48,7 +49,7 @@ public class ConfirmEmailAction extends AbstractGuestAction
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String submit()
 	{
 		log.debug("code: " + code);
@@ -95,6 +96,7 @@ public class ConfirmEmailAction extends AbstractGuestAction
 		return code;
 	}
 
+	@StrutsParameter
 	public void setCode(String code)
 	{
 		this.code = code;

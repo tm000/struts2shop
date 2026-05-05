@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ import seamshop.consts.RequestParam;
 import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.Category;
 import seamshop.model.Image;
@@ -39,7 +40,7 @@ import seamshop.model.Shop;
 import seamshop.util.CollectionUtils;
 import seamshop.util.ImageUtils;
 
-import com.opensymphony.xwork2.Preparable;
+import org.apache.struts2.Preparable;
 
 @Component("memberProductAction")
 @Scope(Spring.ACTION_SCOPE)
@@ -254,7 +255,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String save()
 	{
 		log.debug("---------------- save()");
@@ -340,7 +341,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String saveAdd()
 	{
 		log.debug("---------------- saveAdd()");
@@ -366,7 +367,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String update()
 	{
 		log.debug("---------------- update()");
@@ -395,7 +396,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String delete()
 	{
@@ -507,6 +508,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 		}
 	}
 
+	@StrutsParameter(depth = 2)
 	public Product getProduct()
 	{
 		return product;
@@ -522,6 +524,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 		return variants;
 	}
 
+	@StrutsParameter
 	public void setVariants(List<ProductVariant> variants)
 	{
 		this.variants = variants;
@@ -532,6 +535,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 		return categories;
 	}
 
+	@StrutsParameter
 	public void setCategories(List<Category> categories)
 	{
 		this.categories = categories;
@@ -542,6 +546,7 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 		return description;
 	}
 
+	@StrutsParameter
 	public void setDescription(String description)
 	{
 		this.description = description;
@@ -557,16 +562,19 @@ public class ProductAction extends AbstractHasShopMemberAction<Product, Long>
 		this.generateSummary = generateSummary;
 	}
 
+	@StrutsParameter
 	public void setImages(File[] images)
 	{
 		this.images = images;
 	}
 
+	@StrutsParameter
 	public void setImagesContentType(String[] imagesContentType)
 	{
 		this.imagesContentType = imagesContentType;
 	}
 
+	@StrutsParameter
 	public void setImagesFileName(String[] imagesFileName)
 	{
 		this.imagesFileName = imagesFileName;

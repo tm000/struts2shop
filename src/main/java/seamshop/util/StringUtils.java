@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 /*
  * TODO: We need to check, if input parameter is of String type, if not -
@@ -29,9 +29,9 @@ public abstract class StringUtils
 	 * Returns <code>true</code> if <code>string</code> is either
 	 * <code>null</code> or <code>""</code> or consists of white spaces only.
 	 *
-	 * @deprecated Use {@link org.apache.commons.lang.StringUtils#isBlank(String)}.
+	 * @deprecated Use {@link org.apache.commons.lang3.StringUtils#isBlank(String)}.
 	 */
-	// TODO: Low: Replace by: [org.apache.commons.lang.StringUtils.isBlank()]? (mb)
+	// TODO: Low: Replace by: [org.apache.commons.lang3.StringUtils.isBlank()]? (mb)
 	@Deprecated
 	public static boolean isNullOrEmpty(String string)
 	{

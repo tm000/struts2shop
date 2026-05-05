@@ -33,16 +33,16 @@ Only the following validators are supported:
 * double validator
 END SNIPPET: supported-validators
 -->
-<#if ((parameters.validate?default(false) == true) && (parameters.performValidation?default(false) == true))>
+<#if ((attributes.validate?default(false) == true) && (attributes.performValidation?default(false) == true))>
 <script type="text/javascript">
-    function validateForm_${parameters.id}() {
-        form = document.getElementById("${parameters.id}");
+    function validateForm_${attributes.id}() {
+        form = document.getElementById("${attributes.id}");
         clearErrorMessages(form);
         clearErrorLabels(form);
 
         var errors = false;
         var continueValidation = true;
-    <#list parameters.tagNames as tagName>
+    <#list attributes.tagNames as tagName>
         <#list tag.getValidators("${tagName}") as validator>
         // field name: ${validator.fieldName}
         // validator name: ${validator.validatorType}

@@ -2,15 +2,17 @@ package seamshop.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.ForeignKey;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
+import jakarta.persistence.ForeignKey;
 
 /**
  * Represents product variant as item in customer's order. Order item must has
@@ -48,8 +50,7 @@ public class OrderItem extends AbstractIdBasedEntity
 	 * at the time of {@link #order} creation.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_variant_id", nullable = true, updatable = true)
-	@ForeignKey(name = "fk_order_item_product_variant_id")
+	@JoinColumn(name = "product_variant_id", nullable = true, updatable = true, foreignKey = @ForeignKey(name = "fk_order_item_product_variant_id"))
 	private ProductVariant productVariant;
 
 	/** Quantity of ordered product variant. */
@@ -58,8 +59,7 @@ public class OrderItem extends AbstractIdBasedEntity
 
 	/** Customer's order. */
 	@ManyToOne
-	@JoinColumn(name = "order_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_order_item_order_id")
+	@JoinColumn(name = "order_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_order_item_order_id"))
 	private Order order;
 
 	// Helper fields ----------------------------------------------------------
@@ -128,6 +128,7 @@ public class OrderItem extends AbstractIdBasedEntity
 		return productName;
 	}
 
+	@StrutsParameter
 	public void setProductName(String productName)
 	{
 		this.productName = productName;
@@ -138,6 +139,7 @@ public class OrderItem extends AbstractIdBasedEntity
 		return productVariantName;
 	}
 
+	@StrutsParameter
 	public void setProductVariantName(String productVariantName)
 	{
 		this.productVariantName = productVariantName;
@@ -168,6 +170,7 @@ public class OrderItem extends AbstractIdBasedEntity
 		return quantity;
 	}
 
+	@StrutsParameter
 	public void setQuantity(Integer quantity)
 	{
 		this.quantity = quantity;

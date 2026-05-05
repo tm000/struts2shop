@@ -17,13 +17,14 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
 			<bean
-				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+			</bean>
 		</property>
 		<property name="jpaProperties">
 			<props>
 				<!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop> -->
 				<!--<prop key="hibernate.dialect">seamshop.util.MySQL5Dialect</prop> -->
-				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+				<!--prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop-->
 
 				<!-- If value="create" then Hibernate should run "import.sql" after a 
 					database is created. -->
@@ -49,10 +50,10 @@
 				<!-- =========================================================== Hibernate 
 					Search (based on Lucene). -->
 				<!-- Default directory provider. -->
-				<prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</prop>
+				<!-- prop key="hibernate.search.backend.directory.type">org.hibernate.search.store.FSDirectoryProvider</prop -->
 				<!-- Default base directory for the indecies. TODO: PRODUCTION: Replace 
 					by real path where indexes will be stored. -->
-				<prop key="hibernate.search.default.indexBase">/tmp/lucene/indexes</prop>
+				<prop key="hibernate.search.backend.directory.root">/tmp/lucene/indexes</prop>
 			</props>
 		</property>
 	</bean>

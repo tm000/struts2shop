@@ -1,6 +1,6 @@
 package seamshop.interceptor.transaction;
 
-public enum TransactionType
+public enum MyTransactionType
 {
 	READ,
 	WRITE,

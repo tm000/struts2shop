@@ -1,9 +1,11 @@
 package seamshop.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 // TODO: Rename class: "Abstract(Generated|Native)IdBasedEntity".
 @MappedSuperclass
@@ -19,6 +21,7 @@ public abstract class AbstractIdBasedEntity extends AbstractEntity<Long>
 		return id;
 	}
 
+	@StrutsParameter
 	public void setId(Long id)
 	{
 		this.id = id;

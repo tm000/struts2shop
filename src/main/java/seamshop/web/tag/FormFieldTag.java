@@ -1,12 +1,14 @@
 package seamshop.web.tag;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 import seamshop.action.AbstractAction;
 import seamshop.util.CollectionUtils;
@@ -138,6 +140,7 @@ public class FormFieldTag extends AbstractSimpleTag
 		return result;
 	}
 
+	@StrutsParameter
 	public void setId(String id)
 	{
 		this.id = id;
@@ -148,6 +151,7 @@ public class FormFieldTag extends AbstractSimpleTag
 		return fieldName;
 	}
 
+	@StrutsParameter
 	public void setFieldName(String fieldName)
 	{
 		this.fieldName = fieldName;
@@ -158,16 +162,19 @@ public class FormFieldTag extends AbstractSimpleTag
 		return inputId;
 	}
 
+	@StrutsParameter
 	public void setInputId(String inputId)
 	{
 		this.inputId = inputId;
 	}
 
+	@StrutsParameter
 	public void setLabel(String label)
 	{
 		this.label = label;
 	}
 
+	@StrutsParameter
 	public void setLabelKey(String labelKey)
 	{
 		this.labelKey = labelKey;

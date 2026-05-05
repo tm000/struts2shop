@@ -20,28 +20,28 @@
  * under the License.
  */
 -->
-<#--include "/${parameters.templateDir}/block/controlheader.ftl" /-->
-<#include "/${parameters.templateDir}/${parameters.theme}/controlheader.ftl" />
+<#--include "/${attributes.templateDir}/block/controlheader.ftl" /-->
+<#include "/${attributes.templateDir}/${attributes.theme}/controlheader.ftl" />
 <label<#rt/>
-<#if parameters.id??>
- id="${parameters.id?html}"<#rt/>
+<#if attributes.id??>
+ id="${attributes.id}"<#rt/>
 </#if>
-<#if parameters.cssClass??>
- class="${parameters.cssClass?html}"<#rt/>
+<#if attributes.cssClass??>
+ class="${attributes.cssClass}"<#rt/>
 </#if>
-<#if parameters.cssStyle??>
- style="${parameters.cssStyle?html}"<#rt/>
+<#if attributes.cssStyle??>
+ style="${attributes.cssStyle}"<#rt/>
 </#if>
-<#if parameters.cssClass??>
- class="${parameters.cssClass?html}"<#rt/>
+<#if attributes.cssClass??>
+ class="${attributes.cssClass}"<#rt/>
 </#if>
-<#if parameters.for??>
- for="${parameters.for?html}"<#rt/>
+<#if attributes.for??>
+ for="${attributes.for}"<#rt/>
 </#if>
 ><#rt/>
-<#if parameters.nameValue??>
-<@s.property value="parameters.nameValue"/><#t/>
+<#if attributes.nameValue??>
+<@s.property value="attributes.nameValue"/><#t/>
 </#if>
 &nbsp;
 </label>
-<#include "/${parameters.templateDir}/block/controlfooter.ftl" />
+<#include "/${attributes.templateDir}/block/controlfooter.ftl" />

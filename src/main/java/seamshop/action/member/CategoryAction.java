@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -22,11 +23,11 @@ import seamshop.consts.ResultType;
 import seamshop.consts.Spring;
 import seamshop.dto.Currency;
 //import seamshop.interceptor.method.AllowedMethod;
-import seamshop.interceptor.transaction.TransactionType;
+import seamshop.interceptor.transaction.MyTransactionType;
 import seamshop.interceptor.transaction.Transactional;
 import seamshop.model.Category;
 
-import com.opensymphony.xwork2.Preparable;
+import org.apache.struts2.Preparable;
 
 @Component("memberCategoryAction")
 @Scope(Spring.ACTION_SCOPE)
@@ -134,7 +135,7 @@ public class CategoryAction extends AbstractCrudMemberAction<Category, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String save()
 	{
 		log.debug("---------------- save()");
@@ -154,7 +155,7 @@ public class CategoryAction extends AbstractCrudMemberAction<Category, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String saveAdd()
 	{
 		log.debug("---------------- saveAdd()");
@@ -182,7 +183,7 @@ public class CategoryAction extends AbstractCrudMemberAction<Category, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	public String update()
 	{
 		log.debug("---------------- update()");
@@ -206,7 +207,7 @@ public class CategoryAction extends AbstractCrudMemberAction<Category, Long>
 	}
 
 //	@AllowedMethod
-	@Transactional(TransactionType.WRITE)
+	@Transactional(MyTransactionType.WRITE)
 	@SkipValidation
 	public String delete()
 	{
@@ -233,6 +234,7 @@ public class CategoryAction extends AbstractCrudMemberAction<Category, Long>
 		return currencyCollection.getCollection();
 	}
 
+	@StrutsParameter(depth = 1)
 	public Category getCategory()
 	{
 		return category;

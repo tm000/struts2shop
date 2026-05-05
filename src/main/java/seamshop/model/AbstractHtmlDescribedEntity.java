@@ -1,14 +1,20 @@
 package seamshop.model;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
+import jakarta.persistence.MappedSuperclass;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+// import org.hibernate.search.annotations.Field;
+// import org.hibernate.search.annotations.Index;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import seamshop.util.HtmlUtils;
 import seamshop.util.SafeHtmlAndText;
@@ -36,7 +42,7 @@ public abstract class AbstractHtmlDescribedEntity extends AbstractNamedEntity
 	 * Short description of entity.
 	 */
 	@Column(length = SUMMARY_LENGTH)
-	@Field(index = Index.TOKENIZED)
+	@FullTextField
 	private String summary;
 
 	/**
@@ -54,7 +60,7 @@ public abstract class AbstractHtmlDescribedEntity extends AbstractNamedEntity
 	 * Can be used to generate <code>summary</code>.
 	 */
 	@Lob
-	@Field(index = Index.TOKENIZED)
+	@FullTextField
 	private String textDescription;
 
 	@Override
@@ -63,11 +69,13 @@ public abstract class AbstractHtmlDescribedEntity extends AbstractNamedEntity
 		return INDEXED_FIELDS;
 	}
 
+	@StrutsParameter
 	public void setDescription(String htmlDescription)
 	{
 		setDescription(htmlDescription, true);
 	}
 
+	@StrutsParameter
 	public void setDescription(String description, boolean containsHtmlMarkup)
 	{
 		if (containsHtmlMarkup)
@@ -88,6 +96,7 @@ public abstract class AbstractHtmlDescribedEntity extends AbstractNamedEntity
 		return summary;
 	}
 
+	@StrutsParameter
 	public void setSummary(String summary)
 	{
 		this.summary = summary;

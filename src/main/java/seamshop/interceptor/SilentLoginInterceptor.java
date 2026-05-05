@@ -8,7 +8,7 @@ import seamshop.model.User;
 import seamshop.util.Command;
 import seamshop.util.CookieUtils;
 
-import com.opensymphony.xwork2.ActionInvocation;
+import org.apache.struts2.ActionInvocation;
 
 /**
  * Tries to auto-login user silently if there was found "Remember me" cookie in

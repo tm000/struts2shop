@@ -1,5 +1,7 @@
 package seamshop.actionutil;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 import seamshop.dto.BaseDto;
 
 /**
@@ -26,6 +28,7 @@ public class BreadCrumb extends BaseDto
 		return name;
 	}
 
+	@StrutsParameter
 	public void setName(String name)
 	{
 		this.name = name;
@@ -36,6 +39,7 @@ public class BreadCrumb extends BaseDto
 		return url;
 	}
 
+	@StrutsParameter
 	public void setUrl(String url)
 	{
 		this.url = url;

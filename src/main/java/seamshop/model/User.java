@@ -1,29 +1,33 @@
 package seamshop.model;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.mindrot.bcrypt.BCrypt;
+import org.apache.commons.collections4.CollectionUtils;
+// import org.mindrot.bcrypt.BCrypt;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import seamshop.model.enums.UserRole;
 import seamshop.util.Log;
 
-@Entity
+@Entity(name = "UserEntity")
+@Table(name = "\"user\"")
 @SuppressWarnings("serial")
 public class User extends AbstractIdBasedEntity
 {
@@ -98,7 +102,7 @@ public class User extends AbstractIdBasedEntity
 	{
 		// Gensalt's log_rounds parameter determines the complexity
 		// the work factor is 2**log_rounds, and the default is 10.
-		return BCrypt.hashpw(password, BCrypt.gensalt());
+		return BCrypt.withDefaults().hashToString(10, password.toCharArray());
 	}
 
 	/**
@@ -112,7 +116,7 @@ public class User extends AbstractIdBasedEntity
 	{
 		try
 		{
-			if (BCrypt.checkpw(candidatePassword, passwordHash))
+			if (BCrypt.verifyer().verify(candidatePassword.toCharArray(), passwordHash).verified)
 			{
 				return true;
 			}
@@ -170,6 +174,7 @@ public class User extends AbstractIdBasedEntity
 	/**
 	 * Hash provided password and set password hash to it.
 	 */
+	@StrutsParameter
 	public void setPassword(String password)
 	{
 		log.debug("Creating hash of new password");
@@ -258,6 +263,7 @@ public class User extends AbstractIdBasedEntity
 		return email;
 	}
 
+	@StrutsParameter
 	public void setEmail(String email)
 	{
 		this.email = email;
@@ -288,6 +294,7 @@ public class User extends AbstractIdBasedEntity
 		return firstName;
 	}
 
+	@StrutsParameter
 	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
@@ -298,6 +305,7 @@ public class User extends AbstractIdBasedEntity
 		return lastName;
 	}
 
+	@StrutsParameter
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
@@ -308,6 +316,7 @@ public class User extends AbstractIdBasedEntity
 		return shops;
 	}
 
+	@StrutsParameter
 	public void setShops(Set<Shop> shops)
 	{
 		this.shops = shops;
@@ -328,6 +337,7 @@ public class User extends AbstractIdBasedEntity
 		return addresses;
 	}
 
+	@StrutsParameter
 	public void setAddresses(Set<Address> addresses)
 	{
 		this.addresses = addresses;
@@ -338,6 +348,7 @@ public class User extends AbstractIdBasedEntity
 		return shoppingCountries;
 	}
 
+	@StrutsParameter
 	public void setShoppingCountries(List<UserShoppingCountry> shoppingCountries)
 	{
 		this.shoppingCountries = shoppingCountries;

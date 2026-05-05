@@ -2,14 +2,16 @@ package seamshop.model;
 
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.search.annotations.Indexed;
+import jakarta.persistence.ForeignKey;
+
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import seamshop.util.UrlUtils;
 
@@ -31,8 +33,7 @@ public class Category extends AbstractNamedEntity implements Comparable<Category
 	// TODO: Rename to "owner"/"creator"/"seller"?
 	/** Category's creator. */
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false, updatable = false)
-	@ForeignKey(name = "fk_category_user_id")
+	@JoinColumn(name = "user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_category_user_id"))
 	private User user;
 
 	@OneToMany(mappedBy = "category")
@@ -126,6 +127,7 @@ public class Category extends AbstractNamedEntity implements Comparable<Category
 		return productCategories;
 	}
 
+	@StrutsParameter
 	public void setProductCategories(Set<ProductCategory> productCategories)
 	{
 		this.productCategories = productCategories;
@@ -155,6 +157,7 @@ public class Category extends AbstractNamedEntity implements Comparable<Category
 		return productCount;
 	}
 
+	@StrutsParameter
 	public void setProductCount(Long productCount)
 	{
 		this.productCount = productCount;

@@ -1,5 +1,6 @@
 package seamshop.action;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -107,6 +108,7 @@ public class TestAction extends AbstractGuestAction
 		return to;
 	}
 
+	@StrutsParameter
 	public void setTo(String to)
 	{
 		this.to = to;
@@ -117,6 +119,7 @@ public class TestAction extends AbstractGuestAction
 		return subject;
 	}
 
+	@StrutsParameter
 	public void setSubject(String subject)
 	{
 		this.subject = subject;
@@ -127,6 +130,7 @@ public class TestAction extends AbstractGuestAction
 		return name;
 	}
 
+	@StrutsParameter
 	public void setName(String name)
 	{
 		this.name = name;
@@ -137,6 +141,7 @@ public class TestAction extends AbstractGuestAction
 		return currentPassword;
 	}
 
+	@StrutsParameter
 	public void setCurrentPassword(String currentPassword)
 	{
 		this.currentPassword = currentPassword;

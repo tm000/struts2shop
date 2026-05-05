@@ -2,6 +2,7 @@ package seamshop.action.checkout;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,7 @@ public class EndAction extends AbstractCheckoutInProcessAction
 		return orderNumber;
 	}
 
+	@StrutsParameter
 	public void setOrderNumber(String orderNumber)
 	{
 		this.orderNumber = orderNumber;

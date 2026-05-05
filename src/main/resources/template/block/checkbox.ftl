@@ -25,77 +25,77 @@ NOTE: The 'header' stuff that follows is in this one file for checkbox due to th
 that for checkboxes we do not want the label field to show up as checkboxes handle their own
 lables
 -->
-<#assign hasFieldErrors = fieldErrors?? && fieldErrors[parameters.name]??/>
-<div <#rt/><#if parameters.id??>id="wwgrp_${parameters.id}"<#rt/></#if> class="wwgrp">
+<#assign hasFieldErrors = fieldErrors?? && fieldErrors[attributes.name]??/>
+<div <#rt/><#if attributes.id??>id="wwgrp_${attributes.id}"<#rt/></#if> class="wwgrp">
 
 <#if hasFieldErrors>
-<div <#rt/><#if parameters.id??>id="wwerr_${parameters.id}"<#rt/></#if> class="wwerr">
-<#list fieldErrors[parameters.name] as error>
+<div <#rt/><#if attributes.id??>id="wwerr_${attributes.id}"<#rt/></#if> class="wwerr">
+<#list fieldErrors[attributes.name] as error>
     <div<#rt/>
-    <#if parameters.id??>
-     errorFor="${parameters.id}"<#rt/>
+    <#if attributes.id??>
+     errorFor="${attributes.id}"<#rt/>
     </#if>
     class="errorMessage">
-             ${error?html}
+             ${error}
     </div><#t/>
 </#list>
 </div><#t/>
 </#if>
-<#if parameters.labelposition?default("") == 'left'>
+<#if attributes.labelposition?default("") == 'left'>
 <span <#rt/>
-<#if parameters.id??>id="wwlbl_${parameters.id}"<#rt/></#if> class="wwlbl">
+<#if attributes.id??>id="wwlbl_${attributes.id}"<#rt/></#if> class="wwlbl">
 <label<#t/>
-<#if parameters.id??>
- for="${parameters.id?html}"<#rt/>
+<#if attributes.id??>
+ for="${attributes.id}"<#rt/>
 </#if>
 <#if hasFieldErrors>
  class="checkboxErrorLabel"<#rt/>
 <#else>
  class="label"<#rt/>
 </#if>
->${parameters.label?html}</label><#rt/>
+>${attributes.label}</label><#rt/>
 </span>
 </#if>
 
-<#if parameters.labelposition?default("top") == 'top'>
+<#if attributes.labelposition?default("top") == 'top'>
 <div <#rt/>
 <#else>
 <span <#rt/>
 </#if>
-<#if parameters.id??>id="wwctrl_${parameters.id}"<#rt/></#if> class="wwctrl">
+<#if attributes.id??>id="wwctrl_${attributes.id}"<#rt/></#if> class="wwctrl">
 
-<#if parameters.required?default(false)>
+<#if attributes.required?default(false)>
         <span class="required">*</span><#t/>
 </#if>
 
-<#include "/${parameters.templateDir}/simple/checkbox.ftl" />
-<#if parameters.labelposition?default("") != 'left'>
-<#if parameters.labelposition?default("top") == 'top'>
+<#include "/${attributes.templateDir}/simple/checkbox.ftl" />
+<#if attributes.labelposition?default("") != 'left'>
+<#if attributes.labelposition?default("top") == 'top'>
 </div> <#rt/>
 <#else>
 </span>  <#rt/>
 </#if>
-<#if parameters.label??>
-<#if parameters.labelposition?default("top") == 'top'>
+<#if attributes.label??>
+<#if attributes.labelposition?default("top") == 'top'>
 <div <#rt/>
 <#else>
 <span <#rt/>
 </#if>
-<#if parameters.id??>id="wwlbl_${parameters.id}"<#rt/></#if> class="wwlbl">
+<#if attributes.id??>id="wwlbl_${attributes.id}"<#rt/></#if> class="wwlbl">
 <label<#t/>
-<#if parameters.id??>
- for="${parameters.id?html}"<#rt/>
+<#if attributes.id??>
+ for="${attributes.id}"<#rt/>
 </#if>
 <#if hasFieldErrors>
  class="checkboxErrorLabel"<#rt/>
 <#else>
  class="checkboxLabel"<#rt/>
 </#if>
->${parameters.label?html}</label><#rt/>
+>${attributes.label}</label><#rt/>
 </#if>
 </#if>
-<#if parameters.label??>
-<#if parameters.labelposition?default("top") == 'top'>
+<#if attributes.label??>
+<#if attributes.labelposition?default("top") == 'top'>
 </div> <#rt/>
 <#else>
 </span> <#rt/>

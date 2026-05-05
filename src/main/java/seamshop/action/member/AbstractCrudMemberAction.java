@@ -2,6 +2,8 @@ package seamshop.action.member;
 
 import java.io.Serializable;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 import seamshop.model.AbstractEntity;
 
 /**
@@ -55,6 +57,7 @@ public abstract class AbstractCrudMemberAction
 		return id;
 	}
 
+	@StrutsParameter
 	public void setId(ID id)
 	{
 		this.id = id;

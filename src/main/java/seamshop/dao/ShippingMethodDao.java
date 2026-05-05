@@ -40,9 +40,9 @@ public class ShippingMethodDao extends AbstractHasShopDao<ShippingMethod>
 			.append("where (sm.id = :shippingMethodId) and (s.user.id = :userId)")
 			.toString();
 
-		shippingMethod = (ShippingMethod) createQuery(hql)
-			.setLong("shippingMethodId", shippingMethodId)
-			.setLong("userId", getCurrentUserId())
+		shippingMethod = createQuery(hql)
+			.setParameter("shippingMethodId", shippingMethodId)
+			.setParameter("userId", getCurrentUserId())
 			.uniqueResult();
 
 		return shippingMethod;
@@ -64,9 +64,9 @@ public class ShippingMethodDao extends AbstractHasShopDao<ShippingMethod>
 			.append("where sm.shop.user.id = :userId")
 			.toString();
 
-		count = (Long) createQuery(hql)
-			.setLong("userId", getCurrentUserId())
-			.uniqueResult();
+		count = createQuery(hql, Long.class)
+			.setParameter("userId", getCurrentUserId())
+			.getSingleResult();
 
 		return count;
 	}
@@ -88,7 +88,7 @@ public class ShippingMethodDao extends AbstractHasShopDao<ShippingMethod>
 			.toString();
 
 		return createPagedQuery(hql)
-			.setLong("userId", getCurrentUserId())
+			.setParameter("userId", getCurrentUserId())
 			.list();
 	}
 }

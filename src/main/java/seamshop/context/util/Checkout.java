@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.NullArgumentException;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
 import seamshop.context.SessionContext;
 import seamshop.model.Order;
@@ -45,11 +45,11 @@ public class Checkout implements Serializable
 	{
 		if (shopId == null)
 		{
-			throw new NullArgumentException("shopId");
+			throw new NullPointerException("shopId");
 		}
 		else if (cartItems == null)
 		{
-			throw new NullArgumentException("cartItems");
+			throw new NullPointerException("cartItems");
 		}
 		else if (/*MapUtils .isEmpty(cartItems)*/cartItems.isEmpty())
 		{
@@ -97,6 +97,7 @@ public class Checkout implements Serializable
 		return billingAddressId;
 	}
 
+	@StrutsParameter
 	public void setBillingAddressId(Long billingAddressId)
 	{
 		this.billingAddressId = billingAddressId;
@@ -107,6 +108,7 @@ public class Checkout implements Serializable
 		return shippingAddressId;
 	}
 
+	@StrutsParameter
 	public void setShippingAddressId(Long shippingAddressId)
 	{
 		this.shippingAddressId = shippingAddressId;
@@ -127,6 +129,7 @@ public class Checkout implements Serializable
 		return shippingMethodId;
 	}
 
+	@StrutsParameter
 	public void setShippingMethodId(Long shippingMethodId)
 	{
 		this.shippingMethodId = shippingMethodId;
@@ -142,6 +145,7 @@ public class Checkout implements Serializable
 		return paymentMethodId;
 	}
 
+	@StrutsParameter
 	public void setPaymentMethodId(Long paymentMethodId)
 	{
 		this.paymentMethodId = paymentMethodId;

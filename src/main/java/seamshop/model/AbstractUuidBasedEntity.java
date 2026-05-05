@@ -2,12 +2,12 @@ package seamshop.model;
 
 import static seamshop.util.UuidGenerator.UUID_LENGTH;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 
 import seamshop.util.UuidGenerator;
 
@@ -15,7 +15,7 @@ import seamshop.util.UuidGenerator;
  * @author Alex Siman 2009-08-27
  */
 @MappedSuperclass
-@Table(uniqueConstraints=@UniqueConstraint(columnNames= {"id"}))
+// @Table(uniqueConstraints=@UniqueConstraint(columnNames= {"id"}))
 @SuppressWarnings("serial")
 public abstract class AbstractUuidBasedEntity extends AbstractEntity<String>
 {

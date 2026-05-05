@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -129,6 +130,7 @@ public class OrderAction extends AbstractBuyerAction
 		return id;
 	}
 
+	@StrutsParameter
 	public void setId(Long id)
 	{
 		this.id = id;

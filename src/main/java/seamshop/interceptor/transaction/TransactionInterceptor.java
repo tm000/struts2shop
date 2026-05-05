@@ -8,8 +8,8 @@ import seamshop.interceptor.AbstractInterceptor;
 import seamshop.util.Command;
 import seamshop.util.FinalObjectWrapper;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionInvocation;
+import org.apache.struts2.action.Action;
+import org.apache.struts2.ActionInvocation;
 
 /**
  * Interceptor that invoke action within JPA transaction.
@@ -19,7 +19,7 @@ import com.opensymphony.xwork2.ActionInvocation;
  * Code based on (mainly copied from) {@link AnnotationValidationInterceptor}.
  *
  * @see Transactional
- * @see TransactionType
+ * @see MyTransactionType
  * @see AnnotationValidationInterceptor
  *
  * @author Alex Siman 2009-06-08
@@ -28,7 +28,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 @SuppressWarnings("serial")
 public class TransactionInterceptor extends AbstractInterceptor
 {
-	protected static final TransactionType DEFAULT_TRANSACTION_TYPE = TransactionType.READ;
+	protected static final MyTransactionType DEFAULT_TRANSACTION_TYPE = MyTransactionType.READ;
 
 	// TODO: Refactor: duplicated code.
 	@Override
@@ -37,7 +37,7 @@ public class TransactionInterceptor extends AbstractInterceptor
 		log.debug("Begin of interception.");
 
 		Transactional transAnnotation = findMethodAnnotation(Transactional.class);
-		TransactionType transType = DEFAULT_TRANSACTION_TYPE;
+		MyTransactionType transType = DEFAULT_TRANSACTION_TYPE;
 		if (transAnnotation != null)
 		{
 			transType = transAnnotation.value();
@@ -49,7 +49,7 @@ public class TransactionInterceptor extends AbstractInterceptor
 		return actionResult;
 	}
 
-	protected String invokeWithinTransaction(TransactionType transType) throws Exception
+	protected String invokeWithinTransaction(MyTransactionType transType) throws Exception
 	{
 		final ActionInvocation actionInvocation = getActionInvocation();
 		if (transactionContext == null)
@@ -81,13 +81,13 @@ public class TransactionInterceptor extends AbstractInterceptor
 		};
 
 		String actionResult = Action.ERROR;
-		if (transType == TransactionType.READ)
+		if (transType == MyTransactionType.READ)
 		{
 			log.debug("Invoking action within read-transaction");
 			transactionContext.doInReadTransaction(transCommand);
 			actionResult = actionResultWrapper.getFinalObject();
 		}
-		else if (transType == TransactionType.WRITE)
+		else if (transType == MyTransactionType.WRITE)
 		{
 			log.debug("Invoking action within write-transaction");
 			transactionContext.doInWriteTransaction(transCommand);

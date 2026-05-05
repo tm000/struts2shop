@@ -2,6 +2,8 @@ package seamshop.dto;
 
 import java.math.BigDecimal;
 
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
+
 import seamshop.model.Shop;
 
 /**
@@ -55,6 +57,7 @@ public class Subcart extends BaseDto
 		return itemCount;
 	}
 
+	@StrutsParameter
 	public void setItemCount(long itemCount)
 	{
 		this.itemCount = itemCount;
@@ -65,6 +68,7 @@ public class Subcart extends BaseDto
 		return totalQuantity;
 	}
 
+	@StrutsParameter
 	public void setTotalQuantity(long totalQuantity)
 	{
 		this.totalQuantity = totalQuantity;

@@ -1,7 +1,6 @@
 package seamshop.interceptor.security;
 
-import org.apache.commons.lang.NullArgumentException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import seamshop.model.enums.UserRole;
 
@@ -76,12 +75,12 @@ public class ActionRoleResolver
 	{
 		if (actionClass == null)
 		{
-			throw new NullArgumentException("actionClass");
+			throw new NullPointerException("actionClass");
 		}
 
 		if (StringUtils.isBlank(methodName))
 		{
-			throw new NullArgumentException("methodName");
+			throw new NullPointerException("methodName");
 		}
 
 		String classPath = actionClass.getName();

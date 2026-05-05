@@ -1,11 +1,11 @@
 package seamshop.util;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
@@ -85,7 +85,7 @@ public class HtmlUtils
 		if (!StringUtils.isBlank(plainText))
 		{
 			// Unescape HTML entities to Unicode equivalents.
-			plainText = StringEscapeUtils.unescapeHtml(plainText);
+			plainText = StringEscapeUtils.unescapeHtml4(plainText);
 
 			// Replace all multi-whitespace characters by one space.
 			plainText = plainText.replaceAll("[\\s\\p{Z}]+", " ");
@@ -122,7 +122,6 @@ public class HtmlUtils
 	/**
 	 * Filters input HTML using specified policy as white list of allowed tags.
 	 */
-	@SuppressWarnings("unchecked")
 	private String filter(String inputHtml, String policyFileName)
 	{
 		String filteredHtml = "";
@@ -142,7 +141,7 @@ public class HtmlUtils
 				{
 					scanResults = htmlScanner.scan(inputHtml);
 					filteredHtml = scanResults.getCleanHTML();
-					ArrayList<String> scannerErrors = scanResults.getErrorMessages();
+					List<String> scannerErrors = scanResults.getErrorMessages();
 					if (!CollectionUtils.isNullOrEmpty(scannerErrors))
 					{
 						LOG.trace("HTML input contains erorrs (" + scannerErrors.size() + "):");

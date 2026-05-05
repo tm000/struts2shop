@@ -1,23 +1,31 @@
 package seamshop.service.search;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.Query;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.FullTextQuery;
-import org.hibernate.search.jpa.Search;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.search.backend.lucene.LuceneExtension;
+import org.hibernate.search.engine.search.predicate.SearchPredicate;
+// import org.hibernate.search.jpa.FullTextEntityManager;
+// import org.hibernate.search.jpa.FullTextQuery;
+// import org.hibernate.search.jpa.Search;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Component;
 
 import seamshop.actionutil.Pager;
 import seamshop.dao.GenericDao;
 import seamshop.model.AbstractEntity;
 import seamshop.service.AbstractService;
+import seamshop.service.search.filter.AbstractCountryFilterFactory;
 import seamshop.util.ClassUtils;
 
 /**
@@ -25,7 +33,6 @@ import seamshop.util.ClassUtils;
  */
 // TODO: Refactor to: "AbstractSearchService" like "GenericDao"? (y)
 @Component
-@SuppressWarnings("unchecked")
 public abstract class AbstractSearchService<E extends AbstractEntity>
 	extends AbstractService
 {
@@ -64,12 +71,20 @@ public abstract class AbstractSearchService<E extends AbstractEntity>
 		return GenericDao.getMaxResults(getPager());
 	}
 
-	private List getPageOfResults(FullTextQuery fullTextQuery)
+	private List<E> getPageOfResults(Query luceneQuery, AbstractCountryFilterFactory predicate)
 	{
-		return fullTextQuery
-			.setFirstResult(getFirstResult())
-			.setMaxResults(getMaxResults())
-			.getResultList();
+		SearchSession searchSession = Search.session(entityManager);
+		return searchSession.search(getEntityClass())
+			.extension(LuceneExtension.get())
+			.where(f -> f.bool().with( b -> {
+				b.must(f.fromLuceneQuery(luceneQuery));
+				if (predicate != null)
+				{
+					b.must(predicate.create(f));
+				}
+			}))
+			.fetch(getFirstResult(), getMaxResults())
+			.hits();
 	}
 
 	// This method must be synchronized such as this class is singleton service.
@@ -92,38 +107,39 @@ public abstract class AbstractSearchService<E extends AbstractEntity>
 		return getQueryParser().parse(searchFor);
 	}
 
-	protected FullTextQuery createFullTextQuery(String searchQuery)
+	protected /*FullTextQuery*/Query createFullTextQuery(String searchQuery)
 	{
-		FullTextQuery fullTextQuery = null;
+		/*FullTextQuery fullTextQuery = null;*/
 		if (isBlank(searchQuery))
 		{
 			// Nothing to search for.
-			return fullTextQuery;
+			//return fullTextQuery;
+			return null;
 		}
 
-		FullTextEntityManager fullTextEntityManager =
-			Search.getFullTextEntityManager(entityManager);
+		// FullTextEntityManager fullTextEntityManager =
+		// 	Search.getFullTextEntityManager(entityManager);
 		try
 		{
-			Query luceneQuery = parseQuery(searchQuery);
-			fullTextQuery = fullTextEntityManager
-				.createFullTextQuery(luceneQuery, getEntityClass());
+			return parseQuery(searchQuery);
+			// fullTextQuery = fullTextEntityManager
+			// 	.createFullTextQuery(luceneQuery, getEntityClass());
 		}
 		catch (ParseException pe)
 		{
 			pe.printStackTrace();
 		}
 
-		return fullTextQuery;
+		return null;
 	}
 
-	protected SearchResult<List<E>> getSearchResult(FullTextQuery fullTextQuery)
+	protected SearchResult<List<E>> getSearchResult(/*FullTextQuery*/Query fullTextQuery, AbstractCountryFilterFactory predicate)
 	{
 		// TODO: Add filter for fields: "hidden".
 		// TODO: Fetch product title images.
 
-		List<E> result = getPageOfResults(fullTextQuery);
-		int resultSize = fullTextQuery.getResultSize();
+		List<E> result = getPageOfResults(fullTextQuery, predicate);
+		long resultSize = result.size()/*getResultSize()*/;
 
 		SearchResult<List<E>> searchResult = new SearchResult<List<E>>();
 		searchResult.setResult(result);
@@ -132,9 +148,9 @@ public abstract class AbstractSearchService<E extends AbstractEntity>
 		return searchResult;
 	}
 
-	public SearchResult<List<E>> searchFor(String searchQuery)
+	public SearchResult<List<E>> searchFor(String searchQuery, AbstractCountryFilterFactory predicate)
 	{
-		FullTextQuery fullTextQuery = createFullTextQuery(searchQuery);
-		return getSearchResult(fullTextQuery);
+		/*FullTextQuery*/Query fullTextQuery = createFullTextQuery(searchQuery);
+		return getSearchResult(fullTextQuery, predicate);
 	}
 }

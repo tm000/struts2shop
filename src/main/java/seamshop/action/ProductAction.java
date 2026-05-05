@@ -3,6 +3,7 @@ package seamshop.action;
 import org.apache.struts2.convention.annotation.AllowedMethods;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -72,6 +73,7 @@ public class ProductAction extends AbstractGuestAction
 		return productId;
 	}
 
+	@StrutsParameter
 	public void setProductId(Long productId)
 	{
 		this.productId = productId;

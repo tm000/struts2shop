@@ -2,14 +2,16 @@ package seamshop.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import org.apache.struts2.interceptor.parameter.StrutsParameter;
 
-import org.hibernate.annotations.ForeignKey;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
+
+import jakarta.persistence.ForeignKey;
 
 /**
  * Represents product variant in customer's shopping cart.
@@ -26,14 +28,12 @@ public class CartItem extends AbstractIdBasedEntity
 
 	/** Product variant added to shopping cart. */
 	@ManyToOne
-	@JoinColumn(name = "product_variant_id", nullable = false)
-	@ForeignKey(name = "fk_cart_item_product_variant_id")
+	@JoinColumn(name = "product_variant_id", nullable = false, foreignKey = @ForeignKey(name = "fk_cart_item_product_variant_id"))
 	private ProductVariant productVariant;
 
 	/** Customer's shopping cart. */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cart_id", nullable = false)
-	@ForeignKey(name = "fk_cart_item_product_cart_id")
+	@JoinColumn(name = "cart_id", nullable = false, foreignKey = @ForeignKey(name = "fk_cart_item_product_cart_id"))
 	private Cart cart;
 
 	// Helper fields ----------------------------------------------------------
@@ -140,6 +140,7 @@ public class CartItem extends AbstractIdBasedEntity
 		return quantity;
 	}
 
+	@StrutsParameter
 	public void setQuantity(Integer quantity)
 	{
 		this.quantity = quantity;
